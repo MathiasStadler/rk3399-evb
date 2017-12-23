@@ -57,3 +57,48 @@
 
 # wiki rk3288
 - http://wiki.t-firefly.com/index.php/Firefly-RK3288/en
+
+
+# How to Upgrade Firmware in Rockchip RK3288, RK3328, RK3399 Android TV Boxes
+
+- https://www.cnx-software.com/2014/08/12/how-to-upgrade-firmware-in-rockchip-rk3288-android-tv-boxes/
+
+
+# next tutorial
+- http://blog.geekbuying.com/2014/08/how-to-flash-stock-firmware-for-rk3288-tv-box-tablet-pc-newest-flash-tools-download-available/
+
+# linux tool  rktool v1.24
+- https://drive.google.com/file/d/0B7HO8lbGgAqAendKNTZMQlBXS2c/view
+
+
+# update rktool
+- http://en.t-firefly.com/doc/product/info/id/263.html
+
+# MaskRom mode
+- http://en.t-firefly.com/index.php/doc/product/info/id/401.html
+
+# How to enter Rockusb maskrom mode MaskRom mode 
+- http://rockchip.wikidot.com/how-to-enter-rockusb-maskrom-mode
+
+# Rockchip Linux user guide
+- http://opensource.rock-chips.com/wiki_Linux_user_guide
+
+# Linux user guide
+- http://rockchip.wikidot.com/linux-user-guide
+
+# Rockchip Excavator_sapphire_board
+- http://opensource.rock-chips.com/wiki_Excavator_sapphire_board
+
+# Boot_from_eMMC
+- http://opensource.rock-chips.com/wiki_Boot_option#Boot_from_eMMC
+
+
+
+# irclog.whitequark.org/linux-rockchip  <= https://irclog.whitequark.org/linux-rockchip/2015-11-10
+- Usb Timeout, Return for boot recovery!
+
+
+#create com object
+- http://wiki.radxa.com/Rock/flash_the_image
+
+debug udev
