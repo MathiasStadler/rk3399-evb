@@ -142,3 +142,63 @@ https://github.com/linuxerwang/rkflashkit
 # https://www.cnx-software.com/2014/05/25/how-to-upgrade-firmware-for-rockchip-rk3066rk3188-devices-with-the-command-line-in-linux/
 
 https://www.cnx-software.com/2017/08/11/videostrong-vs-rd-rk3399-is-another-development-board-based-on-rockchip-rk3399-processor/
+
+
+# docker build iamges
+- https://github.com/rockchip-linux/docker-rockchip
+- https://github.com/rockchip-linux/rk-rootfs-build
+- http://opensource.rock-chips.com/wiki_Cross_Compile#Docker
+
+
+- http://opensource.rock-chips.com/wiki_Board_Config
+
+
+
+
+# build rk3399-excavator from soure first try
+- use vagrant image xenial
+
+- follow mainly tutorial http://rockchip.wikidot.com/linux-user-guide#toc4
+
+## instal first missing package that not notes in tutorial not a error maby the vagrant dafault iamge are missing this package 
+
+- ``` sudo apt-get install repo libssl-dev bs ```
+
+1) install package according to instructions
+- ``` sudo apt-get install git-core gitk git-gui gcc-arm-linux-gnueabihf u-boot-tools device-tree-compiler gcc-aarch64-linux-gnu     mtools parted pv```
+2) instal missing package that not include in tutorial and vagrant images
+- ``` sudo apt-get install repo libssl-dev bc dpkg-dev debhelper```
+4) create and change to directory according to instructions
+``` mkdir rk-linux && cd rk-linux```
+3) clone repo for debian according to instructions 
+- ``` repo init -u https://github.com/rockchip-linux/manifests ```
+- ``` repo sync```
+4) Building rootfs
+- i'm used the comment from the README.md file
+- build/pack_deb.sh -c rk3399-excavator -d /dev/mmcblk0(mmc index in target device, not host) (-r rk-rootfs-build/linaro-rootfs.img)
+- more info see (here)[https://github.com/rockchip-linux/rk-rootfs-build]
+- and used this command
+- ```sudo apt-get install binfmt-support qemu-user-static```
+- ```sudo sed -i '10s/^$/yes/g' /var/lib/binfmts/qemu-arm /var/lib/binfmts/qemu-aarch64```
+- ```systemctl restart binfmt-support```
+- Binfmt support (info)[https://github.com/ayufan-rock64/linux-build/blob/master/recipes/binfmt-misc.md] 
+- ```build/pack_deb.sh -c rk3399-excavator -d /dev/mmcblk0 ```
+- The mmc index can you found here 2nd table
+- http://opensource.rock-chips.com/wiki_Board_Config
+5) compile kernel according to instructions
+- ```build/mk-kernel.sh rk3399-excavator```
+6) compile uboot according to instructions
+- ```build/mk-uboot.sh rk3399-excavator```
+7) pack kernel and extlinux as boot.img according to instructions 
+- ```build/mk-image.sh -c rk3399-excavator -t boot```
+8) pack one image according to instructions
+- ```build/mk-image.sh -c rk3399-excavator  -t system -s 3000 -r rk-debian-build/linaro-rootfs.img``` 
+
+
+
+
+
+
+2) run ```build/mk-kernel.sh rk3399-excavator```
+
+
