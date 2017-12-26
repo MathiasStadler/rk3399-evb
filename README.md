@@ -98,7 +98,47 @@
 - Usb Timeout, Return for boot recovery!
 
 
-#create com object
+# create com object
+- Creating Comm Object failed!
 - http://wiki.radxa.com/Rock/flash_the_image
+- last paragraph of article 
 
-debug udev
+- ```echo 'SUBSYSTEM=="usb", ATTR{idVendor}=="2207", MODE="0666", GROUP="plugdev"' | sudo tee /etc/udev/rules.d/51-android.rules ```
+- then restart udev
+- ```sudo udevadm control --reload-rules && sudo udevadm trigger```
+
+
+https://github.com/linuxerwang/rkflashkit
+
+
+# another RK3399_Linux_Manual 
+- http://x.9tripod.com/wiki/zh/index.php/RK3399_Linux_Manual
+
+
+# rkflashkit 
+- i'm use this
+- https://github.com/linuxerwang/rkflashkit.git
+- ```cd ~/Projecte```
+- ```sudo apt-get install build-essential fakeroot``` 
+- ```git clone  https://github.com/linuxerwang/rkflashkit. ```
+- ```./waf debian ```
+- ``` sudo apt-get install python-gtk2```
+- ```sudo dpkg -i rkflashkit_0.1.5_all.deb```
+
+- start rkflashkit device in rockusb mode
+- ```sudo rkflashkit```
+
+
+# rkflashkit cli
+- http://wiki.t-firefly.com/index.php/Firefly-RK3399/Flash_image/en
+- last remark
+
+
+
+# https://www.cnx-software.com/2017/09/25/checking-out-debian-and-linux-sdk-for-videostrong-vs-rd-rk3399-board/
+
+
+# https://www.cnx-software.com/2014/05/25/how-to-upgrade-firmware-for-rockchip-rk3066rk3188-devices-with-the-command-line-in-linux/
+# https://www.cnx-software.com/2014/05/25/how-to-upgrade-firmware-for-rockchip-rk3066rk3188-devices-with-the-command-line-in-linux/
+
+https://www.cnx-software.com/2017/08/11/videostrong-vs-rd-rk3399-is-another-development-board-based-on-rockchip-rk3399-processor/
