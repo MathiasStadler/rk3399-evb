@@ -1,0 +1,130 @@
+ 1  sudo apt install device-tree-compiler u-boot-tools build-essential git bc debootstrap qemu-user-static libssl-dev
+    2  curl -L https://releases.linaro.org/components/toolchain/binaries/6.3-2017.02/aarch64-linux-gnu/gcc-linaro-6.3.1-2017.02-x86_64_aarch64-linux-gnu.tar.xz -O
+    3  sudo apt-get install curl
+    4  locale-gen en_US.UTF-8
+    5  sudo locale-gen en_US.UTF-8
+    6  set|grep UTF
+    7  sudo -i
+    8  cd
+    9  mkdir Download
+   10  cd Download/
+   11  curl -L https://releases.linaro.org/components/toolchain/binaries/6.3-2017.02/aarch64-linux-gnu/gcc-linaro-6.3.1-2017.02-x86_64_aarch64-linux-gnu.tar.xz -O
+   12  sudo tar -xf gcc-linaro-6.3.1-2017.02-x86_64_aarch64-linux-gnu.tar.xz -C /opt
+   13  sudo apt install libssl-dev autoconf gperf bison flex texinfo help2man gawk libncurses5-dev
+   14  cd
+   15  make USE_INTERNAL_TOOLCHAIN=1
+   16  export CROSS_COMPILE=/opt/gcc-linaro-6.3.1-2017.02-x86_64_aarch64-linux-gnu/bin/aarch64-linux-gnu-
+   17  cd arm-trusted-firmware
+   18  cd
+   19  mkdir theobroma-systems
+   20  cd theobroma-systems/
+   21  git clone https://git.theobroma-systems.com/rk3399-cortex-m0.git
+   22  cd rk3399-cortex-m0/
+   23  cd ..
+   24  git clone https://git.theobroma-systems.com/arm-trusted-firmware.git
+   25  cd arm-trusted-firmware/
+   26  make PLAT=rk3399 bl31
+   27  ls -l build/rk3399/release/bl31.bin
+   28  cd ..
+   29  mkdir arm_mainline
+   30  cd arm_mainline/
+   31  mkdir ~/evb_rk3399
+   32  mkdir evb_rk3399
+   33  cd evb_rk3399/
+   34  rm ~/evb_rk3399
+   35  rm -rf ~/evb_rk3399
+   36  git clone https://github.com/ARM-software/arm-trusted-firmware.git
+   37  git clone https://github.com/rockchip-linux/rkbin.git
+   38  git clone https://github.com/rockchip-linux/rkdeveloptool.git
+   39  ls -l
+   40  cd arm-trusted-firmware/
+   41  make PLAT=rk3399 bl31
+   42  make realclean
+   43  make PLAT=rk3399 bl31
+   44  sudo apt-get install gcc-arm-none-eabi
+   45  make PLAT=rk3399 bl31
+   46  ls -l build/rk3399/release/bl31/bl31.dump
+   47  cd ..
+   48  cd theobroma-systems/
+   49  ls
+   50  cd  ~/Download/
+   51  curl -L https://developer.arm.com/-/media/Files/downloads/gnu-rm/6_1-2017q1/gcc-arm-none-eabi-6-2017-q1-update-linux.tar.bz2 -O
+   52  sudo tar -xf gcc-arm-none-eabi-6-2017-q1-update-linux.tar.bz2 -C /opt
+   53  cd
+   54  cd theobroma-systems/
+   55  export ARCH=arm64
+   56  export CROSS_COMPILE=/opt/gcc-arm-none-eabi-6-2017-q1-update/bin/arm-none-eabi-
+   57  git clone https://git.theobroma-systems.com/rk3399-cortex-m0.git
+   58  cd rk3399-cortex-m0/
+   59  make
+   60  cd ..
+   61  history 
+   62  export CROSS_COMPILE=/opt/gcc-linaro-6.3.1-2017.02-x86_64_aarch64-linux-gnu/bin/aarch64-linux-gnu-
+   63  cd arm-trusted-firmware/
+   64  make PLAT=rk3399 bl31
+   65  make realclean
+   66  make PLAT=rk3399 bl31
+   67  cd ..
+   68  git clone https://git.theobroma-systems.com/puma-u-boot.git
+   69  cp rk3399-cortex-m0/rk3399m0.bin puma-u-boot
+   70  cp arm-trusted-firmware/build/rk3399/release/bl31.bin puma-u-boot/bl31.bin
+   71  cp arm-trusted-firmware/build/rk3399/release/bl31.bin puma-u-boot/bl31-rk3399.bin
+   72  cd puma-u-boot
+   73  export ARCH=arm64
+   74  export CROSS_COMPILE=/opt/gcc-linaro-6.3.1-2017.02-x86_64_aarch64-linux-gnu/bin/aarch64-linux-gnu-
+   75  make puma-rk3399_defconfig
+   76  make -j4
+   77  tools/mkimage -n rk3399 -T rksd  -d spl/u-boot-spl.bin spl_sd.img
+   78  tools/mkimage -n rk3399 -T rkspi -d spl/u-boot-spl.bin spl_spi.img
+   79  make u-boot.itb
+   80  cd ..
+   81  git clone https://git.theobroma-systems.com/som-tools.git
+   82  cd som-tools/
+   83  make -C boot-script
+   84  make clean
+   85  make realclean
+   86  make -C boot-script
+   87  cd ..
+   88  git clone https://git.theobroma-systems.com/puma-linux.git
+   89  cd puma-linux/
+   90  export ARCH=arm64
+   91  export CROSS_COMPILE=/opt/gcc-linaro-6.3.1-2017.02-x86_64_aarch64-linux-gnu/bin/aarch64-linux-gnu-
+   92  make puma-rk3399_defconfig
+   93  make -j4 rockchip/rk3399-puma.dtb Image
+   94  df -h .
+   95  exit
+   96  fdisk -l
+   97  sudo fdisk -l
+   98  sudo fdisk /dev/sda
+   99  mount
+  100  mount| grep sda
+  101  sudo fdisk /dev/sda
+  102  sudo mkfs.ext4 /dev/sda2
+  103  exit
+  104  fdisk -l
+  105  sudo fdisk -l
+  106  sudo mkfs.ext4 /dev/sda2
+  107  mkdir cross_compiled
+  108  sudo mkdir /cross_compiled
+  109  sudo mount /dev/sda2 /cross_compiled/
+  110  id
+  111  chown -R vagrant:vagrant /cross_compiled/
+  112  sudo chown -R vagrant:vagrant /cross_compiled/
+  113  sudo chown -R vagrant:vagrant /cross_compiled
+  114  ls
+  115  mv arm_mainline/ theobroma-systems/ /cross_compiled/
+  116  cd /cross_compiled/theobroma-systems/
+  117  ls
+  118  cd puma-linux/
+  119  make help
+  120  make clean
+  121  export ARCH=arm64
+  122  export CROSS_COMPILE=/opt/gcc-linaro-6.3.1-2017.02-x86_64_aarch64-linux-gnu/bin/aarch64-linux-gnu-
+  123  make puma-rk3399_defconfig
+  124  make -j4 rockchip/rk3399-puma.dtb Image
+  125  history 
+
+# kernel image ready
+
+
+

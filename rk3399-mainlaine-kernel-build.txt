@@ -1,0 +1,53 @@
+
+# install on vagrant debian/strech64 box version 9.3
+
+
+# kernl-building.txt
+
+# mein wiki page
+- http://rockchip.wikidot.com/
+
+# ERROR => make[1]: arm-none-eabi-gcc: Command not found
+-> sudo apt-get install gcc-arm-none-eabi
+
+# ERROR => unable to execute 'swig': No such file or directory
+error: command 'swig' failed with exit status 1
+-> sudo apt-get install swig
+
+
+# ERROR => ./tools/mkimage: Can't read u-boot.itb.tmp: Invalid argument
+-> 
+
+
+
+make[2]: 'arch/arm/dts/rk3399-firefly.dtb' is up to date.
+./"arch/arm/mach-rockchip/make_fit_atf.py" \
+arch/arm/dts/rk3399-firefly.dtb > u-boot.its
+Traceback (most recent call last):
+  File "./arch/arm/mach-rockchip/make_fit_atf.py", line 15, in <module>
+    from elftools.elf.elffile import ELFFile
+ImportError: No module named elftools.elf.elffile
+Makefile:986: recipe for target 'u-boot.its' failed
+make: *** [u-boot.its] Error 1
+
+
+
+
+# ERROR => scripts/dtc/pylibfdt/libfdt_wrap.c:149:21: fatal error: Python.h: No such file or directory
+-> sudo apt-get install python-dev   # for python2.x installs
+
+
+#  linaro gcc
+- https://www.theobroma-systems.com/rk3399-q7-user-manual/04-software.html
+
+
+
+
+# u-boot
+git clone https://github.com/u-boot/u-boot.git
+
+
+# dtp => its => itb
+- https://lists.denx.de/pipermail/u-boot/2017-August/304022.html
+ - arch/arm/dts/sun50i-a64-pine64-plus.dtb > u-boot.its
+$ ./tools/mkimage  -f u-boot.its -E u-boot.itb

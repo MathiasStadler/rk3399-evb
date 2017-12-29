@@ -164,6 +164,8 @@ https://www.cnx-software.com/2017/08/11/videostrong-vs-rd-rk3399-is-another-deve
 
 - ``` sudo apt-get install repo libssl-dev bs ```
 
+1a) ```apt-get update && apt-get upgarde```
+
 1) install package according to instructions
 - ``` sudo apt-get install git-core gitk git-gui gcc-arm-linux-gnueabihf u-boot-tools device-tree-compiler gcc-aarch64-linux-gnu     mtools parted pv```
 2) instal missing package that not include in tutorial and vagrant images
