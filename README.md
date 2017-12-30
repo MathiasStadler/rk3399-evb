@@ -379,3 +379,6 @@ sudo setenv m_boot_usb 'setenv bootargs "root=/dev/sda1 rootwait rw console=ttyS
 - https://stackoverflow.com/questions/38956680/difference-between-arm-none-eabi-and-arm-linux-gnueabi
 
 
+
+# extract u-boot.img
+./u-boot/tools/mkimage -l u-boot/u-boot.img
