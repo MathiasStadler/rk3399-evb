@@ -1,8 +1,53 @@
 
 # install on vagrant debian/strech64 box version 9.3
 
+# prepare lsusb
+sudo  apt install usbutils
+
+# Kernel build tutorial
+- https://kernelnewbies.org/KernelBuild
+- https://www.cyberciti.biz/faq/installing-latest-stable-mainline-linux-kernel-on-ubuntu-with-apt-get/
+
+
+
+
+# kernel source
+- git clone git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git
+
+# found checkout kernel version
+- make kernelversion
+
+# change to the last stable kernel version
+- the version number found you at => https://www.kernel.org/ yellowbox
+- ```git checkout tags/v4.10.17```
+- double check kernel version
+- ```make kernelversion```
+ 
+
+
+
+
+# last kernel version
+- https://www.kernel.org/ => 4.14.10
+
+# found last stable kernel version
+
+
+#  find out your current version of Linux kernel, run:
+- ```uname -mrs```
+
+
 
 # kernl-building.txt
+- 
+
+
+
+
+# kernel parameter
+./Documentation/admin-guide/kernel-parameters.txt
+
+
 
 # mein wiki page
 - http://rockchip.wikidot.com/
@@ -16,10 +61,13 @@ error: command 'swig' failed with exit status 1
 
 
 # ERROR => ./tools/mkimage: Can't read u-boot.itb.tmp: Invalid argument
--> 
+
+reason => this step is missing
+~/cross_compiled/arm_mainline/evb_rk3399/u-boot$ ./"arch/arm/mach-rockchip/make_fit_atf.py" arch/arm/dts/rk3399-evb.dtb > u-boot.its
+Solution open-> 
 
 
-
+# ERROR => start=$(/opt/gcc-linaro-6.3.1-2017.02-x86_64_aarch64-linux-gnu/bin/aarch64-linux-gnu-nm u-boot | grep __rel_dyn_start | cut -f 1 -d ' '); end=$(/opt/gcc-linaro-6.3.1-2017.02-x86_64_aarch64-linux-gnu/bin/aarch64-linux-gnu-nm u-boot | grep __rel_dyn_end | cut -f 1 -d ' '); tools/relocate-rela u-boot-nodtb.bin 0x00200000 $start $end
 make[2]: 'arch/arm/dts/rk3399-firefly.dtb' is up to date.
 ./"arch/arm/mach-rockchip/make_fit_atf.py" \
 arch/arm/dts/rk3399-firefly.dtb > u-boot.its
@@ -29,6 +77,8 @@ Traceback (most recent call last):
 ImportError: No module named elftools.elf.elffile
 Makefile:986: recipe for target 'u-boot.its' failed
 make: *** [u-boot.its] Error 1
+Solution -> pip install pyelftools
+
 
 
 
@@ -37,10 +87,8 @@ make: *** [u-boot.its] Error 1
 -> sudo apt-get install python-dev   # for python2.x installs
 
 
-#  linaro gcc
+# theobroma-systems for  rk3399  tutorial
 - https://www.theobroma-systems.com/rk3399-q7-user-manual/04-software.html
-
-
 
 
 # u-boot
@@ -51,3 +99,21 @@ git clone https://github.com/u-boot/u-boot.git
 - https://lists.denx.de/pipermail/u-boot/2017-August/304022.html
  - arch/arm/dts/sun50i-a64-pine64-plus.dtb > u-boot.its
 $ ./tools/mkimage  -f u-boot.its -E u-boot.itb
+
+
+
+# gcc version
+/opt/gcc-linaro-6.3.1-2017.02-x86_64_aarch64-linux-gnu/bin/aarch64-linux-gnu-gcc --version
+aarch64-linux-gnu-gcc (Linaro GCC 6.3-2017.02) 6.3.1 20170109
+Copyright (C) 2016 Free Software Foundation, Inc.
+This is free software; see the source for copying conditions.  There is NO
+warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+
+# linaro version 
+- https://www.linaro.org/downloads/
+
+
+
+u-boot-nodtb.bin
+

@@ -126,5 +126,135 @@
 
 # kernel image ready
 
+125  cd /cross_compiled/
+  126  cd arm_mainline/
+  127  cd evb_rk3399/
+  128  git clone https://github.com/u-boot/u-boot.git
+  129  ls
+  130  cd arm-trusted-firmware/
+  131  cd build/rk3399/release/
+  132  ls
+  133  cd bl31/
+  134  ls
+  135  cp bl31.elf ../../../../../u-boot/
+  136  ls -l
+  137  date
+  138  cd ..
+  139  cd u-boot/
+  140  ls
+  141  make evb-rk3399_defconfig
+  142  make -j 4
+  143  make 
+  144  make clean
+  145  make realclean
+  146  make
+  147  set |grep ARCH
+  148  set |grep CROSS
+  149  make u-boot.itb
+  150  swig -help
+  151  sudo apt-get install swig
+  152  swig -help
+  153  make u-boot.itb
+  154  sudo apt-get install python
+  155  sudo apt-get install python-base
+  156  python --version
+  157  sudo apt-get install python-dev  
+  158  make u-boot.itb
+  159  make clean
+  160  make evb-rk3399_defconfig
+  161  make
+  162  make u-boot.itb
+  163  vi Makefile 
+  164  make u-boot.itb
+  165  cd ..
+  166  cd arm-trusted-firmware/
+  167  ls
+  168  cd build/rk3399/release/
+  169  ls
+  170  cp bl31.bin /cross_compiled/arm_mainline/evb_rk3399/u-boot/
+  171  cd /cross_compiled/arm_mainline/evb_rk3399/u-boot/
+  172  make clean
+  173  make evb-rk3399_defconfig
+  174  make
+  175  make u-boot.itb
+  176  vi tools/mkimage
+  177  vi tools/mkimage.c 
+  178  vi tools/mkimage.h
+  179  vi tools/mkimage.c
+  180  ls
+  181  cd tools/
+  182  ls
+  183  vi image.h
+  184  vi imagetool.h 
+  185  vi mkimage.c 
+  186  cd ..
+  187  tools/mkimage -n rk3399 -T rksd  -d spl/u-boot-spl.bin spl_sd.img
+  188  tools/mkimage -n rk3399 -T rkspi -d spl/u-boot-spl.bin spl_spi.img
+  189  make u-boot.itb
+  190  tools/mkimage -n rk3399 -T rksd  -d spl/u-boot-spl.bin spl_sd.img
+  191  tools/mkimage -n rk3399 -T rkspi -d spl/u-boot-spl.bin spl_spi.img
+  192  make -d u-boot.itb
+  193  tools/mkimage 
+  194  ls -ltr
+  195  ls *tmp
+  196  ls *tmp*
+  197  ls u-boot.itb
+  198  ls u-boot.itb*
+  199  ls u-boot*
+  200  ls-l
+  201  ls -l
+  202  cp u-boot.img  u-boot.img.tmp
+  203  make  u-boot.itb
+  204  vi MAINTAINERS 
+  205  ls
+  206  vi Makefile 
+  207  make  u-boot.itb
+  208  ./dtc
+  209  dtc
+  210  dtc arch/arm/dts/rk3399-evb.dtb
+  211  dtc arch/arm/dts/rk3399-evb.dtb > 
+  212  make  u-boot.itb
+  213  where dtc
+  214  which dtc
+  215  vi Makefile 
+  216  make clean
+  217  make firefly-rk3399_defconfig
+  218  make
+  219  make u-boot.itb
+  220  sudo apt install elfutils
+  221  make u-boot.itb
+  222  sudo apt install elftools
+  223  python --version
+  224  vi Makefile 
+  225  set |grep PYTHON
+  226  python --version
+  227  apt install elftools
+  228  apt install elfutils 
+  229  sudo apt install elfutils 
+  230  sudo apt-file update
+  231  sudo apt list
+  232  sudo apt list|grep elf
+  233  sudo apt list update
+  234  sudo apt list|grep elf
+  235  apt-cache search  elfutils 
+  236  dpkg --listfiles elfutils
+  237  make u-boot.itb
+  238  vi ./arch/arm/mach-rockchip/make_fit_atf.py
+  239  pip install pyelftools
+  240  sudo pip install pyelftools
+  241  sudo apt install python-pip
+  242  pip install pyelftools
+  243  make u-boot.itb
+  244  ls -l
+  245  ls *itb
+  246  make clean
+  247  make evb-rk3399_defconfig
+  248  make
+  249  cat u-boot.cfg
+  250  cat u-boot.cfg |wc -l
+  251  make u-boot.itb
+  252  history
+
+
 
 
