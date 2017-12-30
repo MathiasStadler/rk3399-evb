@@ -47,6 +47,13 @@ Compile the ATF
 
   > cd arm-trusted-firmware
   > make realclean
+
+= with linaro
+export ARCH=arm64
+export CROSS_COMPILE=/opt/gcc-linaro-6.3.1-2017.02-x86_64_aarch64-linux-gnu/bin/aarch64-linux-gnu-
+make  PLAT=rk3399 bl31
+=
+
   > make CROSS_COMPILE=aarch64-linux-gnu- PLAT=rk3399 bl31
 
   Or you can get the bl31.elf directly from Rockchip:
