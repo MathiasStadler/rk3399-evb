@@ -136,6 +136,8 @@ tools/mkimage -n rk3399 -T rksd -d ../rkbin/rk33/rk3399_ddr_800MHz_v1.08.bin idb
 cat ../rkbin/rk33/rk3399_miniloader_v1.06.bin >> idbloader.img
 cp idbloader.img out/u-boot/
 cp ../rkbin/rk33/rk3399_loader_v1.08.106.bin ${OUT}/u-boot/
+
+#1st version
 cat >trust.ini <<EOF
 [VERSION]
 MAJOR=1
@@ -153,13 +155,38 @@ SEC=0
 [OUTPUT]
 PATH=trust.img
 EOF
+
 ../rkbin/tools/trust_merger trust.ini
+
+
+#2nd version with own compiled bl31.elf
+cat >trust_bl31.ini <<EOF
+[VERSION]
+MAJOR=1
+MINOR=0
+[BL30_OPTION]
+SEC=0
+[BL31_OPTION]
+SEC=1
+PATH=../arm-trusted-firmware/build/rk3399/release/bl31/bl31.elf
+ADDR=0x10000
+[BL32_OPTION]
+SEC=0
+[BL33_OPTION]
+SEC=0
+[OUTPUT]
+PATH=trust.img
+EOF
+
+../rkbin/tools/trust_merger trust_bl31.ini
 cp uboot.img out/u-boot/
 mv trust.img out/u-boot/
 
 ### DOING end
 
 
+#bl31 build image
+- https://github.com/ARM-software/arm-trusted-firmware/commit/8382e17c4c6bffd15119dfce1ee4372e3c1a7890
 
 
 # u-boot board
@@ -229,3 +256,90 @@ EOF
 # build arm-trusted-firmware
 - https://github.com/ARM-software/arm-trusted-firmware/blob/master/docs/user-guide.rst
 
+
+
+
+# bl31.bin
+# DOING start
+git clone https://github.com/ARM-software/arm-trusted-firmware.git
+  700  cd arm-trusted-firmware/
+  701  export ARCH=arm64
+  702  export CROSS_COMPILE=/opt/gcc-linaro-6.3.1-2017.02-x86_64_aarch64-linux-gnu/bin/aarch64-linux-gnu-
+  703  make PLAT=rk3399 all
+# DOING end
+
+
+
+
+#Install Boot/kernel
+http://opensource.rock-chips.com/wiki_Upstream_Kernel
+
+
+
+##########
+##########
+
+#
+http://opensource.rock-chips.com/wiki_Rockchip_Kernel
+
+#upstream kernel
+- http://opensource.rock-chips.com/wiki_Upstream_Kernel
+
+
+# make linux imagegit clone git://git.kernel.org/pub/scm/linux/kernel/git/mmind/linux-rockchip.git
+  893  cd linux-rockchip/
+  895  export ARCH=arm64
+  896  export CROSS_COMPILE=/opt/gcc-linaro-6.3.1-2017.02-x86_64_aarch64-linux-gnu/bin/aarch64-linux-gnu-
+  897  make kernelversion
+  make ARCH=arm64 defconfig
+  904  make -j 8
+  905  mkdir boot
+  cp arch/arm64/boot/dts/rockchip/rk3399-evb.dtb boot/rk3399.dtb
+  909  cp arch/arm64/boot/Image boot/
+  912  mkdir boot/extlinux
+  913  vi boot/extlinux/extlinux.conf
+insert:
+===snip========
+label kernel-4.4
+    kernel /Image
+    fdt /rk3399-sapphire-excavator-linux.dtb
+append earlyprintk console=ttyFIQ0,1500000n8 rw root=PARTUUID=b921b045-1d rootfstype=ext4 init=/sbin/init rootwait
+===snap===============
+sudo apt-get install genext2fs
+genext2fs -b 32768 -B $((32*1024*1024/32768)) -d boot/ -i 8192 -U boot_rk3399.img
+# According to Rockchip partition definition, you need to flash this image to boot partiton which offset is 0x8000
+rkdeveloptool db rkbin/rk33/rk3399_loader_v1.08.106.bin
+  931  rkbin/tools/rkdeveloptool  wl 0x8000 linux-rockchip/boot_rk3399.img 
+  932  rkbin/tools/rkdeveloptool  rd
+
+
+
+  ###########
+  ###########
+
+
+#cmdline in debian
+> cat /proc/cmdline
+
+
+=============
+lable kernel-mainline
+    kernel /Image
+    fdt /rk3399.dtb
+    append earlycon=uart8250,mmio,0xff1a0000 console=ttyS2,1500000n8 root=dev/mmcblk0p7 rootwait rootfstype=ext4 init=/sbin/init
+=============
+label kernel-4.4
+    kernel /Image
+    fdt /rk3399-sapphire-excavator-linux.dtb
+append earlyprintk console=ttyFIQ0,1500000n8 rw root=PARTUUID=b921b045-1d rootfstype=ext4 init=/sbin/init rootwait
+
+===========
+#work
+earlyprintk console=ttyFIQ0,1500000n8 rw root=PARTUUID=b921b045-1d rootfstype=ext4 init=/sbin/init rootwait
+
+===========
+label kernel-4.4
+    kernel /Image
+    fdt /rk3399-sapphire-excavator-linux.dtb
+append earlyprintk console=ttyFIQ0,1500000n8 rw root=PARTUUID=b921b045-1d rootfstype=ext4 init=/sbin/init rootwait
+==================
