@@ -302,7 +302,7 @@ insert:
 ===snip========
 label kernel-4.4
     kernel /Image
-    fdt /rk3399-sapphire-excavator-linux.dtb
+    fdt /rk3399.dtb
 append earlyprintk console=ttyFIQ0,1500000n8 rw root=PARTUUID=b921b045-1d rootfstype=ext4 init=/sbin/init rootwait
 ===snap===============
 sudo apt-get install genext2fs
@@ -312,6 +312,8 @@ rkdeveloptool db rkbin/rk33/rk3399_loader_v1.08.106.bin
   931  rkbin/tools/rkdeveloptool  wl 0x8000 linux-rockchip/boot_rk3399.img 
   932  rkbin/tools/rkdeveloptool  rd
 
+#here
+#the kernel dtb is not work test the old one fdt /rk3399-sapphire-excavator-linux.dtb
 
 
   ###########
