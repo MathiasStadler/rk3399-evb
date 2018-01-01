@@ -286,37 +286,36 @@ http://opensource.rock-chips.com/wiki_Rockchip_Kernel
 - http://opensource.rock-chips.com/wiki_Upstream_Kernel
 
 
-# make linux imagegit clone git://git.kernel.org/pub/scm/linux/kernel/git/mmind/linux-rockchip.git
-  893  cd linux-rockchip/
-  895  export ARCH=arm64
-  896  export CROSS_COMPILE=/opt/gcc-linaro-6.3.1-2017.02-x86_64_aarch64-linux-gnu/bin/aarch64-linux-gnu-
-  897  make kernelversion
-  make ARCH=arm64 defconfig
-  904  make -j 8
-  905  mkdir boot
-  cp arch/arm64/boot/dts/rockchip/rk3399-evb.dtb boot/rk3399.dtb
-  909  cp arch/arm64/boot/Image boot/
-  912  mkdir boot/extlinux
-  913  vi boot/extlinux/extlinux.conf
-insert:
-===snip========
+# make linux boot.img 
+git clone git://git.kernel.org/pub/scm/linux/kernel/git/mmind/linux-rockchip.git
+cd linux-rockchip/
+export ARCH=arm64
+export CROSS_COMPILE=/opt/gcc-linaro-6.3.1-2017.02-x86_64_aarch64-linux-gnu/bin/aarch64-linux-gnu-
+make kernelversion
+make ARCH=arm64 defconfig
+make -j 8
+cd ..
+rm -rf boot
+mkdir boot
+cp linux-rockchip/arch/arm64/boot/dts/rockchip/rk3399-sapphire-excavator.dtb boot
+cp linux-rockchip/arch/arm64/boot/Image boot/
+mkdir boot/extlinux
+cat >boot/extlinux/extlinux.conf <<EOF
 label kernel-4.4
-    kernel /Image
-    fdt /rk3399.dtb
+kernel /Image
+fdt /rk3399-sapphire-excavator.dtb
 append earlyprintk console=ttyFIQ0,1500000n8 rw root=PARTUUID=b921b045-1d rootfstype=ext4 init=/sbin/init rootwait
-===snap===============
-sudo apt-get install genext2fs
+EOF
+sudo apt-get -y install genext2fs
+rm -rf boot_rk3399.img
 genext2fs -b 32768 -B $((32*1024*1024/32768)) -d boot/ -i 8192 -U boot_rk3399.img
 # According to Rockchip partition definition, you need to flash this image to boot partiton which offset is 0x8000
 rkdeveloptool db rkbin/rk33/rk3399_loader_v1.08.106.bin
-  931  rkbin/tools/rkdeveloptool  wl 0x8000 linux-rockchip/boot_rk3399.img 
-  932  rkbin/tools/rkdeveloptool  rd
+rkbin/tools/rkdeveloptool  wl 0x8000 boot_rk3399.img 
+rkbin/tools/rkdeveloptool  rd
 
-#here
-#the kernel dtb is not work test the old one fdt /rk3399-sapphire-excavator-linux.dtb
+#Start make linux boot.img 
 
-
-  ###########
   ###########
 
 
@@ -345,3 +344,11 @@ label kernel-4.4
     fdt /rk3399-sapphire-excavator-linux.dtb
 append earlyprintk console=ttyFIQ0,1500000n8 rw root=PARTUUID=b921b045-1d rootfstype=ext4 init=/sbin/init rootwait
 ==================
+
+
+# defconfig
+https://github.com/rockchip-linux/kernel/blob/release-4.4/arch/arm/configs/rockchip_linux_defconfig
+
+
+# dtb 
+
