@@ -6,6 +6,9 @@ export ARCH=arm64
 export CROSS_COMPILE=aarch64-linux-gnu-
 
 DEFCONFIG=rockchip_linux_defconfig
+DEFCONFIG_MAINLINE=defconfig
+
+
 UBOOT_DEFCONFIG=evb-rk3399_defconfig
 DTB_MAINLINE=rk3399-sapphire-excavator.dtb
 DTB=rk3399-sapphire-excavator-linux.dtb
@@ -30,23 +33,33 @@ version_gt() { test "$(echo "$@" | tr " " "\n" | sort -V | head -n 1)" != "$1"; 
 [ ! -d ${OUT}/kernel ] && mkdir ${OUT}/kernel
 
 
+if version_gt "${KERNEL_VERSION}" "4.5"; then
+        if [ "${DTB_MAINLINE}" ]; then
+                DTB=${DTB_MAINLINE}
+        fi
+fi
+
+
+if version_gt "${KERNEL_VERSION}" "4.5"; then
+        if [ "${DEFCONFIG_MAINLINE}" ]; then
+                DEFCONFIG=${DEFCONFIG_MAINLINE}
+        fi
+fi
+
+
 cd ${KERNEL_DIR}
 #TODO old git checkout tags/v4.10.17
 git checkout tags/${KERNEL_TAG}
 
 KERNEL_VERSION=$(make kernelversion) 
 
-make rockchip_linux_defconfig
+make ${DEFCONFIG}
 
-make -j8
+make -j6
 
 #TDOD old KERNEL_VERSION=$(cat ${LOCALPATH}/${KERNEL_DIR}/include/config/kernel.release)
 
-if version_gt "${KERNEL_VERSION}" "4.5"; then
-        if [ "${DTB_MAINLINE}" ]; then
-                DTB=${DTB_MAINLINE}
-        fi
-fi
+
 
 echo -e "\e[36m We used DTB => ${DTB}\e[0m"
 
