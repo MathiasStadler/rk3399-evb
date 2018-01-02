@@ -40,11 +40,15 @@ if version_gt "${KERNEL_VERSION}" "4.5"; then
 fi
 
 
+echo -e "\e[36m We used DTB => ${DTB}\e[0m"
+
 if version_gt "${KERNEL_VERSION}" "4.5"; then
         if [ "${DEFCONFIG_MAINLINE}" ]; then
                 DEFCONFIG=${DEFCONFIG_MAINLINE}
         fi
 fi
+
+echo -e "\e[36m We used DEFCONFIG => ${DEFCONFIG}\e[0m"
 
 
 cd ${KERNEL_DIR}
@@ -61,7 +65,7 @@ make -j6
 
 
 
-echo -e "\e[36m We used DTB => ${DTB}\e[0m"
+
 
 cd ..
 
