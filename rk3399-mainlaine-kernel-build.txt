@@ -502,13 +502,27 @@ LOCALPATH=$(pwd)
 OUT=${LOCALPATH}/out
 TOOLPATH=${LOCALPATH}/rkbin/tools
 EXTLINUXPATH=${LOCALPATH}/build/extlinux
-CHIP=""
+CHIP="rk3399"
 TARGET=""
 ROOTFS_PATH=""
+KERNEL_DIR="linux-stable"
+KERNEL_TAG="v4.10.17"
+cd ${KERNEL_DIR}
+#TODO old git checkout tags/v4.10.17
+git checkout tags/${KERNEL_TAG}
+KERNEL_VERSION=$(make kernelversion) 
 make rockchip_linux_defconfig
 make -j8
+#TDOD old KERNEL_VERSION=$(cat ${LOCALPATH}/${KERNEL_DIR}/include/config/kernel.release)
+version_gt() { test "$(echo "$@" | tr " " "\n" | sort -V | head -n 1)" != "$1"; }
+if version_gt "${KERNEL_VERSION}" "4.5"; then
+        if [ "${DTB_MAINLINE}" ]; then
+                DTB=${DTB_MAINLINE}
+        fi
+fi
+echo -e "\e[36m We used DTB => ${DTB}\e[0m"
 cp kernel/arch/arm64/boot/Image ${OUT}/kernel/
-cp kernel/arch/arm64/boot/dts/rockchip/rk3399-sapphire-excavator-linux.dtb ${OUT}/kernel/
+cp kernel/arch/arm64/boot/dts/rockchip/${DTB} ${OUT}/kernel/
 BOOT=${OUT}/boot.img
 rm -rf ${BOOT}
 # Change extlinux.conf according board
