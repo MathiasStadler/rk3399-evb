@@ -1,6 +1,9 @@
 
 # install on vagrant debian/strech64 box version 9.3
 
+# Status matrix
+# http://opensource.rock-chips.com/wiki_Status_Matrix
+
 # prepare lsusb
 sudo  apt install usbutils
 

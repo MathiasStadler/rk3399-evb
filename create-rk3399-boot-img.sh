@@ -10,7 +10,7 @@ DEFCONFIG_MAINLINE=defconfig
 
 
 UBOOT_DEFCONFIG=evb-rk3399_defconfig
-DTB_MAINLINE=rk3399-sapphire-excavator-linux.dtb
+DTB_MAINLINE=rk3399-sapphire-excavator.dtb
 DTB=rk3399-sapphire-excavator-linux.dtb
 
 CHIP="rk3399"
@@ -22,7 +22,7 @@ CHIP="rk3399"
 TARGET=""
 ROOTFS_PATH=""
 KERNEL_DIR="linux-stable"
-KERNEL_TAG="v4.9.73"
+KERNEL_TAG="v4.14.11"
 
 # help function
 version_gt() { test "$(echo "$@" | tr " " "\n" | sort -V | head -n 1)" != "$1"; }
@@ -71,8 +71,8 @@ cd ..
 cp ${KERNEL_DIR}/arch/arm64/boot/Image ${OUT}/kernel/
 
 
-# cp ${KERNEL_DIR}/arch/arm64/boot/dts/rockchip/${DTB} ${OUT}/kernel/
-cp kernel/arch/arm64/boot/dts/rockchip/${DTB} ${OUT}/kernel/
+cp ${KERNEL_DIR}/arch/arm64/boot/dts/rockchip/${DTB} ${OUT}/kernel/
+#cp kernel/arch/arm64/boot/dts/rockchip/${DTB} ${OUT}/kernel/
 
 BOOT=${OUT}/boot.img
 
