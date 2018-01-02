@@ -22,7 +22,7 @@ CHIP="rk3399"
 TARGET=""
 ROOTFS_PATH=""
 KERNEL_DIR="linux-stable"
-KERNEL_TAG="v4.14.11"
+KERNEL_TAG="v4.14.10"
 
 # help function
 version_gt() { test "$(echo "$@" | tr " " "\n" | sort -V | head -n 1)" != "$1"; }
