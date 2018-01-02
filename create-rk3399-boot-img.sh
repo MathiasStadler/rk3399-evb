@@ -69,8 +69,10 @@ make -j6
 cd ..
 
 cp ${KERNEL_DIR}/arch/arm64/boot/Image ${OUT}/kernel/
-cp ${KERNEL_DIR}/arch/arm64/boot/dts/rockchip/${DTB} ${OUT}/kernel/
 
+
+# cp ${KERNEL_DIR}/arch/arm64/boot/dts/rockchip/${DTB} ${OUT}/kernel/
+cp kernel/arch/arm64/boot/dts/rockchip/${DTB} ${OUT}/kernel/
 
 BOOT=${OUT}/boot.img
 
