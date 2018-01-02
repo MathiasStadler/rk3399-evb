@@ -10,7 +10,7 @@ DEFCONFIG_MAINLINE=defconfig
 
 
 UBOOT_DEFCONFIG=evb-rk3399_defconfig
-DTB_MAINLINE=rk3399-evb.dtb
+DTB_MAINLINE=rk3399-sapphire-excavator-linux.dtb
 DTB=rk3399-sapphire-excavator-linux.dtb
 
 CHIP="rk3399"
