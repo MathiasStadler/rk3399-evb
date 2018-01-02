@@ -28,12 +28,18 @@ KERNEL_TAG="v4.9.73"
 version_gt() { test "$(echo "$@" | tr " " "\n" | sort -V | head -n 1)" != "$1"; }
 
 
+finish() {
+        echo -e "\e[31m CREATE BOOT.IMG FAILED.\e[0m"
+        exit -1
+}
+trap finish ERR
+
+
+
+
 # house keeping
 [ ! -d ${OUT} ] && mkdir ${OUT} 
 [ ! -d ${OUT}/kernel ] && mkdir ${OUT}/kernel
-
-
-
 
 
 cd ${KERNEL_DIR}
@@ -59,10 +65,6 @@ make ${DEFCONFIG}
 make -j6
 
 #TDOD old KERNEL_VERSION=$(cat ${LOCALPATH}/${KERNEL_DIR}/include/config/kernel.release)
-
-
-
-
 
 cd ..
 
