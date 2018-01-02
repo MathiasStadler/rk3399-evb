@@ -36,18 +36,11 @@ version_gt() { test "$(echo "$@" | tr " " "\n" | sort -V | head -n 1)" != "$1"; 
 if version_gt "${KERNEL_VERSION}" "4.5"; then
         if [ "${DTB_MAINLINE}" ]; then
                 DTB=${DTB_MAINLINE}
-        fi
-fi
-
-
-echo -e "\e[36m We used DTB => ${DTB}\e[0m"
-
-if version_gt "${KERNEL_VERSION}" "4.5"; then
-        if [ "${DEFCONFIG_MAINLINE}" ]; then
                 DEFCONFIG=${DEFCONFIG_MAINLINE}
         fi
 fi
 
+echo -e "\e[36m We used DTB => ${DTB}\e[0m"
 echo -e "\e[36m We used DEFCONFIG => ${DEFCONFIG}\e[0m"
 
 
