@@ -1,0 +1,117 @@
+> fdisk -l /dev/mmcblk1                                       
+Disk /dev/mmcblk1: 7.3 GiB, 7818182656 bytes, 15269888 sectors                  
+Units: sectors of 1 * 512 = 512 bytes                                           
+Sector size (logical/physical): 512 bytes / 512 bytes                           
+I/O size (minimum/optimal): 512 by00400-0804-0146-9DCC-A8C51255994F             
+                                                                                
+Device          Start      e Type                                               
+/dev/mmcblk1p1     64     8063     8000  3.9M Microsoft basic data              
+/dev/mmcblk1p3  24576    32767     8192    4M Microst basic data                
+/dev/mmcblk1p5 262144 15269854 15007711  7.2G Micrroot@linaro-alip:~# 
+
+
+> cat /proc/cmdline
+earlyprintk console=ttyFIQ0,1500000n8 rw root=PARTUUID=b921b045-1d rootfstype=ex
+t4 init=/sbin/init rootwait
+
+> mount
+/dev/mmcblk1p5 on / type ext4 (rw,relatime,data=ordered)                       k
+devtmpfs on /dev type devtmpfs (rw,relatime,size=1951644k,nr_ino)
+sysfs on /sys type sysfs (rw,nosuid,nodev,noexec,relatime)
+proc on /proc type proc (rw,nosuid,nodev,noexec,relatime)
+securi on /sys/kernel/security type securityfs (rw,nosuid,nodev,noexecvpts on /)
+tmpfs on /run/lock type tmpfs (rw,nosuid,nodev,nsuid,nodev,noexec,mode=755)
+cgroup on /sys/fs/cgroup/systemd ty=/lib/systemd/systemd-cgroups-agent,name=sys)
+cgroup on /sy17;1Hset)
+cgroup on /sys/fs/cgroup/cpu,cpuacct type cgroup (rw,/cgroup/freezer type cgroue
+
+
+> cat /proc/mounts
+/dev/root / ext4 rw,relatime,data=ordered 0 0                                   
+devtmpfs /dev devtmpfs rw,relatime,size=1951644k,nr_inodes=487911,mode=755 0 0  
+sysfs /sys sysfs rw,nosuid,nodev,id,nodev,noexec,relatime 0 0                   
+securityfs /sys/kernel/security seosuid,nodev 0 0                               
+devpts /dev/pts devpts rw,nosuid,noexec,relatimmode=755 0 0                     
+tmpfs /run/lock tmpfs rw,nosuid,nodev,noexec,relat,mode=755 0 0                 
+cgroup /sys/fs/cgroup/systemd cgroup rw,nosuid,noagent,name=systemd 0 0         
+cgroup /sys/fs/cgroup/cpuset cgroup rw,nt cgroup rw,nosuid,nodev,noexec,relatim0 cgroupzer 0 0                                                                   
+cgroup /sys/fs/cgroup/devices cgroup rw,nosuid,nodev,no 0 0                     
+fusectl /sys/fs/fuse/connections fusectl rw,relatime 0 0                        
+er/0 tmpfs rw,nosuid,nodev,relatime,size=390444k,mode=700 0 0                   
+t,uid=1000,gid=1000 0 0                                                         
+/dev/mmcblk1p4 /media/linaro/boot vfat rpage=936,iocharset=utf8,shortname=mixed
+
+
+> vi /media/linaro/boot/extlinux/extlinux.conf
+label kernel-4.4
+    kernel /Image
+    fdt /rk3399-sapphire-excavator-linux.dtb
+    append  earlyprintk console=ttyFIQ0,1500000n8 rw root=PARTUUID=b921b045-1d rootfstype=ext4 
+
+
+> uname -a
+Linux linaro-alip 4.4.103 #1 SMP Tue Dec 26 19:46:00 UTC 2017 aarch64 GNU/Linux
+
+
+uboot:> mmc part
+                             
+                                                                                
+Partition Map for MMC device 0  --   Partition Type: EFI                        
+                                                                                
+Part    Start LBA       End LBA         Name                                    
+        Attributes                                                              
+        Type GUID                                                               
+        Partition GUID                                                          
+  1     0x00000040      0x00001f7f      "loader1"                               
+        attrs:  0x0000000000000000                                              
+        type:   ebd0a0a2-b9e5-4433-87c0-68b6b72699c7                            
+        guid:   d1105fff        "loader2"                                       
+        attrs:  0x0000000000000000                                              
+        type:   ebd0a0a2-b9e                                                    
+  3     0x00006000      0x00007fff      "trust"                                 
+48-8536-aff5c9c495b100000000000000                                              
+  4     0x00008000      0x0003ffff      "boot"                                  
+        attrs:  :       08992135-13c6-084b-9322-3391ff571e19                    
+  5     0x00040000      0x00e8ffd7c0-68b6b72699c7                               
+        guid:   b921b045-1df0-41c3-af44-4c6f280d3fae 
+
+
+u-boot:> printenv
+=> printenv                                                                     
+arch=arm                                                                        
+baudrate=1500000                                                                
+board=evb_rk3399                                                                
+board_name=evb_rk3399                                                           
+boot_a_script=load ${devtype} ${devnum}:${distro_bootpart} ${scriptaddr} ${pref}
+boot_eefi bootmgr ${fdt_addr_r};else bootefi bootmgr ${fdtcontroladdr}i/boot/boi
+boot_extlinux=sysboot ${devtype} ${devnum}:${distro_busb_start=usb start        
+boot_prefixes=/ /boot/                                                          
+boot_script_dhcp=bommc1 usb0 pxe dhcp                                           
+bootcmd=run distro_bootcmd                                                      
+bootcmd_dhcp=ruource ${scriptaddr}; fi;setenv efi_fdtfile ${fdtfile}; setenv eft
+bootcmd_mmc1=setenv devnum 1; run mmxe boot; fi                                 
+bootcmd_usb0=setenv devnum 0; run usb_boot                                      
+bootdelbootcmd_${target}; done                                                  
+00000tb_prefixes=/ /dtb/ /dtb/current/                                          
+load_efi_dtb=load ${devtype} ${devnum}:${distro_bootpart}hen setenv devtype mmci
+partitio=${uuid_gpt_loader1};name=loader2,start=8MB,size=4MB,uuid=${uuid12M,boo0
+scan_dev_for_boot=echo Scanning ${devtype} ${scan_dev_for_extlinux; run scan_dei
+scan_dev_for_scripts=for script in ${{prefix}${script}; then echo Found U-Boot 0
+soc=rockchip                                                                    
+usb_boot=usb start; if usb i                                                    
+vendor=rockchip                                                                 
+                                                                                
+Environment size: 3895/32764 bytes 
+
+u-boot:> version
+=> version                                                                      
+U-Boot 2018.01-rc2-00048-g3bb6dc04a9 (Dec 30 2017 - 20:51:05 +0000)             
+                                                                                
+aarch64-linux-gnu-gcc (Linaro GCC 6.3-2017.02) 6.3.1 209                        
+GNU ld (Linaro_Binutils-2017.02) 2.27.0.20161019
+
+
+
+
+
+

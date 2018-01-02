@@ -14,6 +14,9 @@ sudo  apt install usbutils
 # kernel source
 - git clone git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git
 
+#  kernel real clean = mrproper
+- mrproper	  - Remove all generated files + config + various backup files
+
 # found checkout kernel version
 - make kernelversion
 
@@ -286,35 +289,89 @@ http://opensource.rock-chips.com/wiki_Rockchip_Kernel
 - http://opensource.rock-chips.com/wiki_Upstream_Kernel
 
 
-# make linux boot.img 
+# START make linux boot.img 
 git clone git://git.kernel.org/pub/scm/linux/kernel/git/mmind/linux-rockchip.git
 cd linux-rockchip/
 export ARCH=arm64
 export CROSS_COMPILE=/opt/gcc-linaro-6.3.1-2017.02-x86_64_aarch64-linux-gnu/bin/aarch64-linux-gnu-
 make kernelversion
 make ARCH=arm64 defconfig
-make -j 8
+# linux 4.14.10 
+make -j 8 Image dtbs
 cd ..
+
 rm -rf boot
 mkdir boot
-cp linux-rockchip/arch/arm64/boot/dts/rockchip/rk3399-sapphire-excavator.dtb boot
-cp linux-rockchip/arch/arm64/boot/Image boot/
+#cp linux-rockchip/arch/arm64/boot/Image boot/
+cp linux-4.14.10/arch/arm64/boot/Image boot/
 mkdir boot/extlinux
+
+
+# version 4.4 form developer kit => run
+# cp linux-rockchip/arch/arm64/boot/dts/rockchip/rk3399-sapphire-excavator-linux.dtb boot
 cat >boot/extlinux/extlinux.conf <<EOF
 label kernel-4.4
 kernel /Image
-fdt /rk3399-sapphire-excavator.dtb
+fdt /rk3399-sapphire-excavator-linux.dtb
 append earlyprintk console=ttyFIQ0,1500000n8 rw root=PARTUUID=b921b045-1d rootfstype=ext4 init=/sbin/init rootwait
 EOF
+
+# version from http://opensource.rock-chips.com/wiki_Upstream_Kernel
+cp linux-4.14.10/arch/arm64/boot/dts/rockchip/rk3399-sapphire-excavator.dtb boot/
+#cp linux-rockchip/arch/arm64/boot/dts/rockchip/rk3399-sapphire-excavator.dtb boot/
+cat >boot/extlinux/extlinux.conf <<EOF
+label kernel-mainline
+kernel /Image
+fdt /rk3399-sapphire-excavator.dtb
+append earlycon=uart8250,mmio,0xff1a0000 console=ttyS2,1500000n8 root=dev/mmcblk0p5 rootwait rootfstype=ext4 init=/sbin/init
+EOF
+
+
+
+# versiom from both
+cp linux-rockchip/arch/arm64/boot/dts/rockchip/rk3399-sapphire-excavator.dtb boot
+cat >boot/extlinux/extlinux.conf <<EOF
+label kernel-mainline-me
+kernel /Image
+fdt /rk3399-sapphire-excavator.dtb
+append earlyprintk console=ttyFIQ0,1500000n8 root=PARTUUID=b921b045-1d rootwait rootfstype=ext4 init=/sbin/init
+EOF
+
+
+# boot.img ext2 bases
 sudo apt-get -y install genext2fs
 rm -rf boot_rk3399.img
 genext2fs -b 32768 -B $((32*1024*1024/32768)) -d boot/ -i 8192 -U boot_rk3399.img
-# According to Rockchip partition definition, you need to flash this image to boot partiton which offset is 0x8000
-rkdeveloptool db rkbin/rk33/rk3399_loader_v1.08.106.bin
-rkbin/tools/rkdeveloptool  wl 0x8000 boot_rk3399.img 
-rkbin/tools/rkdeveloptool  rd
 
-#Start make linux boot.img 
+# START boot.img vfat based
+BOOT=boot_vfat.img
+rm -rf ${BOOT}
+echo -e "\e[36m Generate Boot image start\e[0m"
+# 100 Mb
+sudo mkfs.vfat -n "boot" -S 512 -C ${BOOT} $((100 * 1024))
+sudo chmod 0666 ${BOOT}
+mmd -i ${BOOT} ::/extlinux
+#mcopy -i ${BOOT} -s boot/extlinux/extlinux.conf ::/extlinux/extlinux.conf
+mcopy -i ${BOOT} -s boot/* ::
+echo -e "\e[36m Generate Boot image : ${BOOT} success! \e[0m"
+# END boot.img vfat based
+
+
+
+
+# According to Rockchip partition definition, you need to flash this image to boot partiton which offset is 0x8000
+rkdeveloptool db rkbin/rk33/rk3399_loader_v1.08.106.bin  
+sleep 3  
+rkbin/tools/rkdeveloptool  wl 0x8000 boot_rk3399.img 
+sleep 3
+rkbin/tools/rkdeveloptool  rd
+#END make linux boot.img 
+
+
+
+
+
+
 
   ###########
 
@@ -346,9 +403,124 @@ append earlyprintk console=ttyFIQ0,1500000n8 rw root=PARTUUID=b921b045-1d rootfs
 ==================
 
 
+setenv bootargs earlycon=uart8250,mmio,0xff1a0000 console=ttyS2,1500000n8 root=dev/mmcblk0p7 rootwait rootfstype=ext4 init=/sbin/init
+
+
+
+
 # defconfig
 https://github.com/rockchip-linux/kernel/blob/release-4.4/arch/arm/configs/rockchip_linux_defconfig
 
 
 # dtb 
 
+
+# earlyprintk — Show early boot messages. 
+- from here
+- http://www.linuxtopia.org/online_books/linux_kernel/kernel_configuration/re05.html
+
+# earlycon=   [KNL] Output early console device and options.
+-  from here
+
+
+
+uboot:ext2ls mmc 0:4
+uboot:ext2ls mmc 0:5 sbin
+
+
+
+# Booting_Linux_kernel_using_U-Boot
+- http://processors.wiki.ti.com/index.php/Booting_Linux_kernel_using_U-Boot
+
+
+# dtb create dts/dtsi => dtb
+- from here
+- http://www.wiki.xilinx.com/Build+Device+Tree+Blob
+> ./scripts/dtc/dtc -I dts -O dtb -o <devicetree name>.dtb <devicetree name>.dts
+
+- for arm linux kernel only
+> make ARCH=arm dtbs
+- compiled kernel with dtb
+> make ARCH=arm <devicetree name>.dtb
+
+
+# dtb How to decompile dtb file?
+- dtc -I dtb -O dts -o rk3399-sapphire-excavator-linux.dts rk3399-sapphire-excavator-linux.dtb
+
+
+
+# uboot boot order mayby
+- nice to know
+- https://github.com/notro/rpi-build/wiki/U-Boot
+boot    - boot default, i.e., run 'bootcmd'
+bootcmd=run distro_bootcmd 
+distro_bootcmd=for target in ${boot_t; do run bootcmd_${target}; done
+
+
+# build mainline kernel by hand
+
+- borad info
+case ${BOARD} in
+        "rk3399-excavator")
+                DEFCONFIG=rockchip_linux_defconfig
+                UBOOT_DEFCONFIG=evb-rk3399_defconfig
+                DTB_MAINLINE=rk3399-sapphire-excavator.dtb
+                DTB=rk3399-sapphire-excavator-linux.dtb
+                export ARCH=arm64
+                export CROSS_COMPILE=aarch64-linux-gnu-
+                CHIP="rk3399"
+                ;;
+
+- gcc version
+
+>  aarch64-linux-gnu-gcc --version
+aarch64-linux-gnu-gcc (Ubuntu/Linaro 5.4.0-6ubuntu1~16.04.4) 5.4.0 20160609
+Copyright (C) 2015 Free Software Foundation, Inc.
+This is free software; see the source for copying conditions.  There is NO
+warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+
+> uname -a
+Linux ubuntu-xenial 4.4.0-104-generic #127-Ubuntu SMP Mon Dec 11 12:16:42 UTC 2017 x86_64 x86_64 x86_64 GNU/Linux
+
+
+> lsb_relaese -a
+Distributor ID:	Ubuntu
+Description:	Ubuntu 16.04.3 LTS
+
+
+## build  kernel
+## START ##
+DEFCONFIG=rockchip_linux_defconfig
+UBOOT_DEFCONFIG=evb-rk3399_defconfig
+DTB_MAINLINE=rk3399-sapphire-excavator.dtb
+DTB=rk3399-sapphire-excavator-linux.dtb
+export ARCH=arm64
+export CROSS_COMPILE=aarch64-linux-gnu-
+CHIP="rk3399"
+LOCALPATH=$(pwd)
+OUT=${LOCALPATH}/out
+TOOLPATH=${LOCALPATH}/rkbin/tools
+EXTLINUXPATH=${LOCALPATH}/build/extlinux
+CHIP=""
+TARGET=""
+ROOTFS_PATH=""
+make rockchip_linux_defconfig
+make -j8
+cp kernel/arch/arm64/boot/Image ${OUT}/kernel/
+cp kernel/arch/arm64/boot/dts/rockchip/rk3399-sapphire-excavator-linux.dtb ${OUT}/kernel/
+BOOT=${OUT}/boot.img
+rm -rf ${BOOT}
+# Change extlinux.conf according board
+echo -e "\e[36mChange extlinux.conf according board\e[0m"
+sed -e "s,fdt .*,fdt /$DTB,g" \
+        -i ${EXTLINUXPATH}/${CHIP}.conf
+cat ${EXTLINUXPATH}/${CHIP}.conf   
+echo -e "\e[36m Generate Boot image start\e[0m"
+# 100 Mb default size
+mkfs.vfat -n "boot" -S 512 -C ${BOOT} $((100 * 1024))
+mmd -i ${BOOT} ::/extlinux
+mcopy -i ${BOOT} -s ${EXTLINUXPATH}/${CHIP}.conf ::/extlinux/extlinux.conf
+mcopy -i ${BOOT} -s ${OUT}/kernel/* ::
+echo -e "\e[36m Generate Boot image : ${BOOT} success! \e[0m"
+## END ##
