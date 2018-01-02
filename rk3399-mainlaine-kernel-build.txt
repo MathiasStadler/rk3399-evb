@@ -23,6 +23,8 @@ sudo  apt install usbutils
 # found checkout kernel version
 - make kernelversion
 
+git tag -l | less
+
 # change to the last stable kernel version
 - the version number found you at => https://www.kernel.org/ yellowbox
 - ```git checkout tags/v4.10.17```
@@ -541,3 +543,12 @@ mcopy -i ${BOOT} -s ${EXTLINUXPATH}/${CHIP}.conf ::/extlinux/extlinux.conf
 mcopy -i ${BOOT} -s ${OUT}/kernel/* ::
 echo -e "\e[36m Generate Boot image : ${BOOT} success! \e[0m"
 ## END ##
+
+
+
+# How to unpack and repack an initial ramdisk (initrd/initramfs) image? 
+- https://access.redhat.com/solutions/24029
+
+
+# ayufan rootfs
+- https://github.com/ayufan-rock64/linux-build/blob/master/rootfs/make_rootfs.sh
