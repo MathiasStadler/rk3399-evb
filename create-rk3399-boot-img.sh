@@ -51,7 +51,7 @@ fi
 
 echo -e "\e[36m We used DTB => ${DTB}\e[0m"
 echo -e "\e[36m We used DEFCONFIG => ${DEFCONFIG}\e[0m"
-
+echo -e "\e[36m We used KERNEL_VERSION => ${KERNEL_VERSION}\e[0m"
 
 
 make ${DEFCONFIG}
@@ -85,5 +85,12 @@ mkfs.vfat -n "boot" -S 512 -C ${BOOT} $((100 * 1024))
 mmd -i ${BOOT} ::/extlinux
 mcopy -i ${BOOT} -s ${EXTLINUXPATH}/${CHIP}.conf ::/extlinux/extlinux.conf
 mcopy -i ${BOOT} -s ${OUT}/kernel/* ::
+#TODO old echo -e "\e[36m Generate Boot image : ${BOOT} success! \e[0m"
+
+echo -e "\e[36m Summery:\e[0m"
+echo -e "\e[36m We used DTB => ${DTB}\e[0m"
+echo -e "\e[36m We used DEFCONFIG => ${DEFCONFIG}\e[0m"
+echo -e "\e[36m We used KERNEL_VERSION => ${KERNEL_VERSION}\e[0m"
 echo -e "\e[36m Generate Boot image : ${BOOT} success! \e[0m"
+
 ## END ##
