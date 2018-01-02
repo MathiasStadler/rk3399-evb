@@ -33,6 +33,15 @@ version_gt() { test "$(echo "$@" | tr " " "\n" | sort -V | head -n 1)" != "$1"; 
 [ ! -d ${OUT}/kernel ] && mkdir ${OUT}/kernel
 
 
+
+
+
+cd ${KERNEL_DIR}
+#TODO old git checkout tags/v4.10.17
+git checkout tags/${KERNEL_TAG}
+
+KERNEL_VERSION=$(make kernelversion) 
+
 if version_gt "${KERNEL_VERSION}" "4.5"; then
         if [ "${DTB_MAINLINE}" ]; then
                 DTB=${DTB_MAINLINE}
@@ -44,11 +53,6 @@ echo -e "\e[36m We used DTB => ${DTB}\e[0m"
 echo -e "\e[36m We used DEFCONFIG => ${DEFCONFIG}\e[0m"
 
 
-cd ${KERNEL_DIR}
-#TODO old git checkout tags/v4.10.17
-git checkout tags/${KERNEL_TAG}
-
-KERNEL_VERSION=$(make kernelversion) 
 
 make ${DEFCONFIG}
 
