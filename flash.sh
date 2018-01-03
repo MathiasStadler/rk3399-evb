@@ -1,3 +1,5 @@
+#!bin/bash
+
 rkbin/tools/rkdeveloptool  db out/u-boot/rk3399_loader_v1.08.106.bin 
 rkbin/tools/rkdeveloptool gpt rkbin/tools/parameter_gpt.txt 
 rkbin/tools/rkdeveloptool pgpt 
