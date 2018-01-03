@@ -555,3 +555,32 @@ echo -e "\e[36m Generate Boot image : ${BOOT} success! \e[0m"
 
 
 What is  /sbin/init files
+
+
+
+apt-get install shellcheck
+
+
+
+
+#boot from sdcard
+In the boot rom, the eMMC has higher priority if it have firmware.
+So what you need to do is override the firmware in eMMC, then you can 
+use SD card.
+You can do this.
+dd if=/dev/zero of=out count=4096
+
+rkdeveloptool db rkxx_loader_vx.xx.bin
+rkdeveloptool wl 0x40 out
+rkdeveloptool rd
+
+After this, the bootrom should not able to found firmware in eMMC, and 
+it will
+try to find the firmware in SD card.
+
+
+https://kernel.googlesource.com/pub/scm/linux/kernel/git/mmind/linux-rockchip/
+
+
+
+https://github.com/mmind/u-boot-rockchip/tree/master-rockchip

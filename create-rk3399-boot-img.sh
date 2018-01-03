@@ -5,12 +5,10 @@
 export ARCH=arm64
 export CROSS_COMPILE=aarch64-linux-gnu-
 
-
 MAINLINE=y
 
 DEFCONFIG=rockchip_linux_defconfig
 DEFCONFIG_MAINLINE=defconfig
-
 
 UBOOT_DEFCONFIG=evb-rk3399_defconfig
 DTB_MAINLINE=rk3399-sapphire-excavator.dtb
@@ -24,60 +22,48 @@ EXTLINUXPATH=${LOCALPATH}/build/extlinux
 CHIP="rk3399"
 TARGET=""
 ROOTFS_PATH=""
-KERNEL_DIR="linux-stable"
-KERNEL_TAG="v4.4.103"
+#KERNEL_DIR="linux-stable"
+KERNEL_DIR="linux-rockchip"
+KERNEL_TAG="v4.15-rc5"
 
 # help function
 version_gt() { test "$(echo "$@" | tr " " "\n" | sort -V | head -n 1)" != "$1"; }
 
-
 finish() {
-        echo -e "\e[31m CREATE BOOT.IMG FAILED.\e[0m"
-        exit -1
+    echo -e "\e[31m CREATE BOOT.IMG FAILED.\e[0m"
+    exit -1
 }
 trap finish ERR
 
-
-
-
 # house keeping
-[ ! -d ${OUT} ] && mkdir ${OUT} 
+[ ! -d ${OUT} ] && mkdir ${OUT}
 [ ! -d ${OUT}/kernel ] && mkdir ${OUT}/kernel
-
 
 cd ${KERNEL_DIR}
 #TODO old git checkout tags/v4.10.17
 git checkout tags/${KERNEL_TAG}
 
-KERNEL_VERSION=$(make kernelversion) 
-
+KERNEL_VERSION=$(make kernelversion)
 
 if [ "${MAINLINE}" == "y" ]; then
 
-
-DTB=${DTB_MAINLINE}
-DEFCONFIG=${DEFCONFIG_MAINLINE}
+    DTB=${DTB_MAINLINE}
+    DEFCONFIG=${DEFCONFIG_MAINLINE}
 
 else
 
-if version_gt "${KERNEL_VERSION}" "4.5"; then
+    if version_gt "${KERNEL_VERSION}" "4.5"; then
         if [ "${DTB_MAINLINE}" ]; then
-                DTB=${DTB_MAINLINE}
-                DEFCONFIG=${DEFCONFIG_MAINLINE}
+            DTB=${DTB_MAINLINE}
+            DEFCONFIG=${DEFCONFIG_MAINLINE}
         fi
+    fi
+
 fi
-
-
-fi
-
-
-
-
 
 echo -e "\e[36m We used DTB => ${DTB}\e[0m"
 echo -e "\e[36m We used DEFCONFIG => ${DEFCONFIG}\e[0m"
 echo -e "\e[36m We used KERNEL_VERSION => ${KERNEL_VERSION}\e[0m"
-
 
 make ${DEFCONFIG}
 
@@ -89,7 +75,6 @@ cd ..
 
 cp ${KERNEL_DIR}/arch/arm64/boot/Image ${OUT}/kernel/
 
-
 cp ${KERNEL_DIR}/arch/arm64/boot/dts/rockchip/${DTB} ${OUT}/kernel/
 #cp kernel/arch/arm64/boot/dts/rockchip/${DTB} ${OUT}/kernel/
 
@@ -100,8 +85,8 @@ rm -rf ${BOOT}
 # Change extlinux.conf according board
 echo -e "\e[36mChange extlinux.conf according board\e[0m"
 sed -e "s,fdt .*,fdt /$DTB,g" \
-        -i ${EXTLINUXPATH}/${CHIP}.conf
-cat ${EXTLINUXPATH}/${CHIP}.conf   
+    -i ${EXTLINUXPATH}/${CHIP}.conf
+cat ${EXTLINUXPATH}/${CHIP}.conf
 echo -e "\e[36m Generate Boot image start\e[0m"
 # 100 Mb default size
 mkfs.vfat -n "boot" -S 512 -C ${BOOT} $((100 * 1024))
@@ -115,7 +100,6 @@ echo -e "\e[36m We used DTB => ${DTB}\e[0m"
 echo -e "\e[36m We used DEFCONFIG => ${DEFCONFIG}\e[0m"
 echo -e "\e[36m We used KERNEL_VERSION => ${KERNEL_VERSION}\e[0m"
 echo -e "\e[36m Generate Boot image : ${BOOT} success! \e[0m"
-
 
 echo -e "Bring board is msrom mode and flash boot.img"
 
