@@ -5,6 +5,9 @@
 export ARCH=arm64
 export CROSS_COMPILE=aarch64-linux-gnu-
 
+
+MAINLINE=y
+
 DEFCONFIG=rockchip_linux_defconfig
 DEFCONFIG_MAINLINE=defconfig
 
@@ -48,12 +51,28 @@ git checkout tags/${KERNEL_TAG}
 
 KERNEL_VERSION=$(make kernelversion) 
 
+
+if [ "${MAINLINE}" == "y" ]; then
+
+
+DTB=${DTB_MAINLINE}
+DEFCONFIG=${DEFCONFIG_MAINLINE}
+
+else
+
 if version_gt "${KERNEL_VERSION}" "4.5"; then
         if [ "${DTB_MAINLINE}" ]; then
                 DTB=${DTB_MAINLINE}
                 DEFCONFIG=${DEFCONFIG_MAINLINE}
         fi
 fi
+
+
+fi
+
+
+
+
 
 echo -e "\e[36m We used DTB => ${DTB}\e[0m"
 echo -e "\e[36m We used DEFCONFIG => ${DEFCONFIG}\e[0m"
