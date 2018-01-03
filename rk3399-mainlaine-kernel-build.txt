@@ -552,3 +552,6 @@ echo -e "\e[36m Generate Boot image : ${BOOT} success! \e[0m"
 
 # ayufan rootfs
 - https://github.com/ayufan-rock64/linux-build/blob/master/rootfs/make_rootfs.sh
+
+
+What is  /sbin/init files
