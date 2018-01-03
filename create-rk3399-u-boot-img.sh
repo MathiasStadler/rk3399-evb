@@ -40,7 +40,7 @@ fi
 echo -e "\e[36m Building U-boot for BOARD => ${BOARD} board! \e[0m"
 echo -e "\e[36m Using UBOOT_DEFCONFIG => ${UBOOT_DEFCONFIG} \e[0m"
 
-cd ${LOCALPATH}/${U_BOOT_DIR}
+cd "${LOCALPATH}"/${U_BOOT_DIR}
 
 make clean
 
@@ -50,13 +50,13 @@ make "${UBOOT_DEFCONFIG}" all
 #Makefile:1024: recipe for target 'u-boot.itb' failed
 #make u-boot.itb
 
-${TOOLPATH}/loaderimage --pack --uboot ./u-boot-dtb.bin uboot.img 0x200000
+"${TOOLPATH}"/loaderimage --pack --uboot ./u-boot-dtb.bin uboot.img 0x200000
 
 
 #TODO Which mkimage version support rk3399
 #TODOD select the current git
-"${MKIMAGE}" -n rk3399 -T rksd -d ${LOCALPATH}/rkbin/rk33/rk3399_ddr_800MHz_v1.08.bin idbloader.img
-cat ${LOCALPATH}/rkbin/rk33/rk3399_miniloader_v1.06.bin >>idbloader.img
+"${MKIMAGE}" -n rk3399 -T rksd -d "${LOCALPATH}"/rkbin/rk33/rk3399_ddr_800MHz_v1.08.bin idbloader.img
+cat "${LOCALPATH}"/rkbin/rk33/rk3399_miniloader_v1.06.bin >>idbloader.img
 cp idbloader.img "${OUT}"/u-boot/
 cp "${LOCALPATH}"/rkbin/rk33/rk3399_loader_v1.08.106.bin "${OUT}"/u-boot/
 
@@ -78,7 +78,7 @@ SEC=0
 PATH=trust.img
 EOF
 
-$TOOLPATH/trust_merger "${LOCALPATH}"/trust.ini
+"$TOOLPATH"/trust_merger "${LOCALPATH}"/trust.ini
 
 # save trust.ini
 cp "${LOCALPATH}"/trust.ini "${OUT}"
@@ -86,11 +86,40 @@ cp uboot.img "${OUT}"/u-boot/
 mv trust.img "${OUT}"/u-boot/
 
 
-echo -e "\e[36m Generated Boot image start\e[0m"
+echo -e "\e[36m Generated u-boot image \e[0m"
 
-echo -e "\e[36m Take the board is msrom mode and flash u-boot.img\e[0m"
-echo -e "\e[36m rkbin/tools/rkdeveloptool  db out/u-boot/rk3399_loader_v1.08.106.bin && \ \e[0m"
-echo -e "\e[36m sleep 3 && \ \e[0m"
-echo -e "\e[36m rkbin/tools/rkdeveloptool  wl 0x4000 ${OUT}/u-boot/uboot.img && \ \e[0m"
-echo -e "\e[36m sleep 3 && \ \e[0m"
-echo -e "\e[36m rkbin/tools/rkdeveloptool rd && \ \e[0m"
+
+cat >"${LOCALPATH}"/flash_u-boot.sh <<EOF
+OUT_DIR="${OUT}"
+wait_sleep=3
+rkbin/tools/rkdeveloptool  db ${OUT_DIR}/u-boot/rk3399_loader_v1.08.106.bin && \
+sleep ${wait_sleep}  && \
+rkbin/tools/rkdeveloptool  wl 0x40 ${OUT_DIR}/u-boot/idbloader.img  && \
+sleep ${wait_sleep}  && \
+rkbin/tools/rkdeveloptool  wl 0x4000 ${OUT_DIR}/u-boot/uboot.img && \
+sleep ${wait_sleep}  && \
+rkbin/tools/rkdeveloptool rd
+EOF
+
+echo -e "\e[36m flash u-boot image \e[0m"
+cat flash_u-boot.sh
+
+exit 0 
+
+cat >"${LOCALPATH}"/flash_u-boot.sh <<EOF
+OUT_DIR="${OUT}"
+wait_sleep=3
+rkbin/tools/rkdeveloptool  db ${OUT_DIR}/u-boot/rk3399_loader_v1.08.106.bin && \
+sleep ${wait_sleep}  && \
+rkbin/tools/rkdeveloptool  wl 0x40 ${OUT_DIR}/u-boot/idbloader.img  && \
+sleep ${wait_sleep}  && \
+rkbin/tools/rkdeveloptool  wl 0x4000 ${OUT_DIR}/u-boot/uboot.img && \
+sleep ${wait_sleep}  && \
+rkbin/tools/rkdeveloptool  wl 0x6000 ${OUT_DIR}/u-boot/trust.img && \
+sleep ${wait_sleep}  && \
+rkbin/tools/rkdeveloptool  wl 0x8000 ${OUT_DIR}/boot.img && \
+sleep ${wait_sleep}  && \
+rkbin/tools/rkdeveloptool  wl 0x40000 ${OUT_DIR}/rootfs/linaro-rootfs.img && \
+sleep ${wait_sleep}  && \
+rkbin/tools/rkdeveloptool rd
+EOF
