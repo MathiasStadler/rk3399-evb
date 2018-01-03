@@ -66,6 +66,6 @@ EOF
 $TOOLPATH/trust_merger ${LOCALPATH}/trust.ini
 
 # save trust.ini
-cp ${LOCALPATH}/trust.ini ${out}
+cp ${LOCALPATH}/trust.ini ${OUT}
 cp uboot.img ${OUT}/u-boot/
 mv trust.img ${OUT}/u-boot/
