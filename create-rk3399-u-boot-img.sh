@@ -24,6 +24,22 @@ finish_error() {
 }
 trap finish_error ERR
 
+dir="${OUT}"
+
+# save out
+# FROM HERE
+# https://www.cyberciti.biz/faq/howto-check-if-a-directory-exists-in-a-bash-shellscript/
+if [ -d "$dir" -a ! -h "$dir" ]
+then
+   echo "$dir found "
+   cp -a $dir "${DIR}_$(date +"%Y_%m_%d_%I_%M_%S")"
+   
+else
+   echo "$dir not availble Nothing to save"
+fi
+
+
+
 if [ $# != 1 ]; then
     BOARD="rk3399-excavator"
 fi
@@ -93,17 +109,16 @@ cat >"${LOCALPATH}"/flash_u-boot.sh <<EOF
 OUT_DIR="${OUT}"
 wait_sleep=3
 rkbin/tools/rkdeveloptool  db ${OUT_DIR}/u-boot/rk3399_loader_v1.08.106.bin && \
-sleep ${wait_sleep}  && \
+sleep wait_sleep  && \
 rkbin/tools/rkdeveloptool  wl 0x40 ${OUT_DIR}/u-boot/idbloader.img  && \
-sleep ${wait_sleep}  && \
+sleep wait_sleep  && \
 rkbin/tools/rkdeveloptool  wl 0x4000 ${OUT_DIR}/u-boot/uboot.img && \
-sleep ${wait_sleep}  && \
+sleep wait_sleep  && \
 rkbin/tools/rkdeveloptool rd
 EOF
 
 echo -e "\e[36m flash u-boot image \e[0m"
-cat flash_u-boot.sh
-
+cat "${LOCALPATH}"/flash_u-boot.sh
 exit 0 
 
 cat >"${LOCALPATH}"/flash_u-boot.sh <<EOF
