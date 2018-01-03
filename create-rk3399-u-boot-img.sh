@@ -6,6 +6,9 @@
 
 U_BOOT_DIR="u-boot-rockchip"
 
+
+
+
 LOCALPATH=$(pwd)
 OUT="${LOCALPATH}"/out
 TOOLPATH="${LOCALPATH}"/rkbin/tools
@@ -13,11 +16,13 @@ BOARD=$1
 
 PATH=$PATH:$TOOLPATH
 
-finish() {
+MKIMAGE="${LOCALPATH}"/u-boot/tools/mkimage
+
+finish_error() {
     echo -e "\e[31m MAKE UBOOT IMAGE FAILED.\e[0m"
     exit -1
 }
-trap finish ERR
+trap finish_error ERR
 
 if [ $# != 1 ]; then
     BOARD="rk3399-excavator"
@@ -43,7 +48,7 @@ ${TOOLPATH}/loaderimage --pack --uboot ./u-boot-dtb.bin uboot.img 0x200000
 
 #TODO Which mkimage version support rk3399
 #TODOD select the current git
-"${LOCALPATH}"/uboot/tools/mkimage -n rk3399 -T rksd -d ${LOCALPATH}/rkbin/rk33/rk3399_ddr_800MHz_v1.08.bin idbloader.img
+"${MKIMAGE}" -n rk3399 -T rksd -d ${LOCALPATH}/rkbin/rk33/rk3399_ddr_800MHz_v1.08.bin idbloader.img
 cat ${LOCALPATH}/rkbin/rk33/rk3399_miniloader_v1.06.bin >>idbloader.img
 cp idbloader.img "${OUT}"/u-boot/
 cp "${LOCALPATH}"/rkbin/rk33/rk3399_loader_v1.08.106.bin "${OUT}"/u-boot/
