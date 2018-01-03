@@ -88,10 +88,9 @@ mv trust.img "${OUT}"/u-boot/
 
 echo -e "\e[36m Generated Boot image start\e[0m"
 
-echo -e "Take the board is msrom mode and flash u-boot.img && \ "
-echo -e "sleep 3 && \ "
-echo -e "rkbin/tools/rkdeveloptool  db out/u-boot/rk3399_loader_v1.08.106.bin && \ "
-echo -e "sleep 3 && \ "
-echo -e "rkbin/tools/rkdeveloptool  wl 0x4000 ${OUT_DIR}/u-boot/uboot.img && \ "
-echo -e "sleep 3 && \ "
-echo -e "rkbin/tools/rkdeveloptool rd && \ "
+echo -e "\e[36m Take the board is msrom mode and flash u-boot.img\e[0m"
+echo -e "\e[36m rkbin/tools/rkdeveloptool  db out/u-boot/rk3399_loader_v1.08.106.bin && \ \e[0m"
+echo -e "\e[36m sleep 3 && \ \e[0m"
+echo -e "\e[36m rkbin/tools/rkdeveloptool  wl 0x4000 ${OUT}/u-boot/uboot.img && \ \e[0m"
+echo -e "\e[36m sleep 3 && \ \e[0m"
+echo -e "\e[36m rkbin/tools/rkdeveloptool rd && \ \e[0m"
