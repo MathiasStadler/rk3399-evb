@@ -24,7 +24,7 @@ TARGET=""
 ROOTFS_PATH=""
 #KERNEL_DIR="linux-stable"
 KERNEL_DIR="linux-rockchip"
-KERNEL_TAG="v4.15-rockchip-dts64-2"
+KERNEL_TAG="v4.15-rc2"
 
 # help function
 version_gt() { test "$(echo "$@" | tr " " "\n" | sort -V | head -n 1)" != "$1"; }
