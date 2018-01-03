@@ -37,12 +37,14 @@ if [ $? -ne 0 ]; then
     exit
 fi
 
-echo -e "\e[36m Building U-boot for ${BOARD} board! \e[0m"
-echo -e "\e[36m Using ${UBOOT_DEFCONFIG} \e[0m"
+echo -e "\e[36m Building U-boot for BOARD => ${BOARD} board! \e[0m"
+echo -e "\e[36m Using UBOOT_DEFCONFIG => ${UBOOT_DEFCONFIG} \e[0m"
 
 cd ${LOCALPATH}/${U_BOOT_DIR}
 
 make "${UBOOT_DEFCONFIG}" all
+
+make u-boot.itb
 
 ${TOOLPATH}/loaderimage --pack --uboot ./u-boot-dtb.bin uboot.img 0x200000
 
