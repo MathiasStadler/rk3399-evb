@@ -42,9 +42,13 @@ echo -e "\e[36m Using UBOOT_DEFCONFIG => ${UBOOT_DEFCONFIG} \e[0m"
 
 cd ${LOCALPATH}/${U_BOOT_DIR}
 
+make clean
+
 make "${UBOOT_DEFCONFIG}" all
 
-make u-boot.itb
+#TODO 
+#Makefile:1024: recipe for target 'u-boot.itb' failed
+#make u-boot.itb
 
 ${TOOLPATH}/loaderimage --pack --uboot ./u-boot-dtb.bin uboot.img 0x200000
 

@@ -587,3 +587,7 @@ https://github.com/mmind/u-boot-rockchip/tree/master-rockchip
 
 # uboot-rockchip master
 https://github.com/mmind/u-boot-rockchip/tree/master-rockchip
+
+
+# builöd rootfs
+http://bbs.t-firefly.com/forum.php?mod=viewthread&tid=2072
