@@ -7,8 +7,8 @@
 U_BOOT_DIR="u-boot-rockchip"
 
 LOCALPATH=$(pwd)
-OUT=${LOCALPATH}/out
-TOOLPATH=${LOCALPATH}/rkbin/tools
+OUT="${LOCALPATH}"/out
+TOOLPATH="${LOCALPATH}"/rkbin/tools
 BOARD=$1
 
 PATH=$PATH:$TOOLPATH
@@ -23,10 +23,10 @@ if [ $# != 1 ]; then
     BOARD="rk3399-excavator"
 fi
 
-[ ! -d ${OUT} ] && mkdir ${OUT}
-[ ! -d ${OUT}/u-boot ] && mkdir ${OUT}/u-boot
+[ ! -d "${OUT}" ] && mkdir "${OUT}"
+[ ! -d "${OUT}"/u-boot ] && mkdir "${OUT}"/u-boot
 
-source $LOCALPATH/build/board_configs.sh $BOARD
+source "${LOCALPATH}"/build/board_configs.sh "${BOARD}"
 
 if [ $? -ne 0 ]; then
     exit
@@ -36,16 +36,16 @@ echo -e "\e[36m Building U-boot for ${BOARD} board! \e[0m"
 echo -e "\e[36m Using ${UBOOT_DEFCONFIG} \e[0m"
 
 cd ${LOCALPATH}/${U_BOOT_DIR}
-make ${UBOOT_DEFCONFIG} all
+make "${UBOOT_DEFCONFIG}" all
 
 ${TOOLPATH}/loaderimage --pack --uboot ./u-boot-dtb.bin uboot.img 0x200000
 
-${TOOLPATH}/tools/mkimage -n rk3399 -T rksd -d ${LOCALPATH}/rkbin/rk33/rk3399_ddr_800MHz_v1.08.bin idbloader.img
+"${TOOLPATH}"/mkimage -n rk3399 -T rksd -d ${LOCALPATH}/rkbin/rk33/rk3399_ddr_800MHz_v1.08.bin idbloader.img
 cat ${LOCALPATH}/rkbin/rk33/rk3399_miniloader_v1.06.bin >>idbloader.img
-cp idbloader.img ${OUT}/u-boot/
-cp ${LOCALPATH}/rkbin/rk33/rk3399_loader_v1.08.106.bin ${OUT}/u-boot/
+cp idbloader.img "${OUT}"/u-boot/
+cp "${LOCALPATH}"/rkbin/rk33/rk3399_loader_v1.08.106.bin "${OUT}"/u-boot/
 
-cat >${LOCALPATH}/trust.ini <<EOF
+cat >"${LOCALPATH}"/trust.ini <<EOF
 [VERSION]
 MAJOR=1
 MINOR=0
@@ -63,9 +63,9 @@ SEC=0
 PATH=trust.img
 EOF
 
-$TOOLPATH/trust_merger ${LOCALPATH}/trust.ini
+$TOOLPATH/trust_merger "${LOCALPATH}"/trust.ini
 
 # save trust.ini
-cp ${LOCALPATH}/trust.ini ${OUT}
-cp uboot.img ${OUT}/u-boot/
-mv trust.img ${OUT}/u-boot/
+cp "${LOCALPATH}"/trust.ini "${OUT}"
+cp uboot.img "${OUT}"/u-boot/
+mv trust.img "${OUT}"/u-boot/
