@@ -40,7 +40,7 @@ make "${UBOOT_DEFCONFIG}" all
 
 ${TOOLPATH}/loaderimage --pack --uboot ./u-boot-dtb.bin uboot.img 0x200000
 
-"${TOOLPATH}"/mkimage -n rk3399 -T rksd -d ${LOCALPATH}/rkbin/rk33/rk3399_ddr_800MHz_v1.08.bin idbloader.img
+"${U_BOOT_DIR}"/tools/mkimage -n rk3399 -T rksd -d ${LOCALPATH}/rkbin/rk33/rk3399_ddr_800MHz_v1.08.bin idbloader.img
 cat ${LOCALPATH}/rkbin/rk33/rk3399_miniloader_v1.06.bin >>idbloader.img
 cp idbloader.img "${OUT}"/u-boot/
 cp "${LOCALPATH}"/rkbin/rk33/rk3399_loader_v1.08.106.bin "${OUT}"/u-boot/
