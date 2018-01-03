@@ -578,9 +578,12 @@ After this, the bootrom should not able to found firmware in eMMC, and
 it will
 try to find the firmware in SD card.
 
-
+# linux master
 https://kernel.googlesource.com/pub/scm/linux/kernel/git/mmind/linux-rockchip/
 
 
 
+https://github.com/mmind/u-boot-rockchip/tree/master-rockchip
+
+# uboot-rockchip master
 https://github.com/mmind/u-boot-rockchip/tree/master-rockchip
