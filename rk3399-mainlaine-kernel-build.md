@@ -591,3 +591,25 @@ https://github.com/mmind/u-boot-rockchip/tree/master-rockchip
 
 # builöd rootfs
 http://bbs.t-firefly.com/forum.php?mod=viewthread&tid=2072
+
+
+
+# To customize Android firmware, there are two methods: 
+- http://wiki.t-firefly.com/index.php/Firefly-RK3399/Customize_android_firmware/en
+
+
+ttyO0,115200n8
+
+# ??This issue looks like environment setting/version mismatch with Boot loader to Linux Kernel.
+- https://forums.xilinx.com/t5/Embedded-Linux/u-boot-load-kernel-stop-at-starting-kernel/td-p/755815
+
+
+# uboot compress issus
+- https://unix.stackexchange.com/questions/291408/linux-kernel-hangs-at-starting-kernel
+
+
+# bootarg
+- https://github.com/raspberrypi/linux/issues/2123
+
+# 7.3. Passing Kernel Arguments
+- https://www.denx.de/wiki/DULG/LinuxKernelArgs

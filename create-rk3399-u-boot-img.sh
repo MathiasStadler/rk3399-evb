@@ -29,10 +29,10 @@ dir="${OUT}"
 # save out
 # FROM HERE
 # https://www.cyberciti.biz/faq/howto-check-if-a-directory-exists-in-a-bash-shellscript/
-if [ -d "$dir" -a ! -h "$dir" ]
+if [ -d "${dir}" -a ! -h "${dir}" ]
 then
-   echo "$dir found "
-   cp -a $dir "${DIR}_$(date +"%Y_%m_%d_%I_%M_%S")"
+   echo "${dir} found "
+   cp -a "${dir}" "${dir}_$(date +"%Y_%m_%d_%I_%M_%S")"
    
 else
    echo "$dir not availble Nothing to save"
@@ -106,14 +106,14 @@ echo -e "\e[36m Generated u-boot image \e[0m"
 
 
 cat >"${LOCALPATH}"/flash_u-boot.sh <<EOF
-OUT_DIR="${OUT}"
+OUT_DIR="${OUT:-out}"
 wait_sleep=3
-rkbin/tools/rkdeveloptool  db ${OUT_DIR}/u-boot/rk3399_loader_v1.08.106.bin && \
-sleep wait_sleep  && \
-rkbin/tools/rkdeveloptool  wl 0x40 ${OUT_DIR}/u-boot/idbloader.img  && \
-sleep wait_sleep  && \
-rkbin/tools/rkdeveloptool  wl 0x4000 ${OUT_DIR}/u-boot/uboot.img && \
-sleep wait_sleep  && \
+rkbin/tools/rkdeveloptool  db ${OUT_DIR}/u-boot/rk3399_loader_v1.08.106.bin && 
+sleep $wait_sleep  &&
+rkbin/tools/rkdeveloptool  wl 0x40 ${OUT_DIR}/u-boot/idbloader.img  && 
+sleep $wait_sleep  &&
+rkbin/tools/rkdeveloptool  wl 0x4000 ${OUT_DIR}/u-boot/uboot.img && 
+sleep $wait_sleep  && 
 rkbin/tools/rkdeveloptool rd
 EOF
 
@@ -124,17 +124,17 @@ exit 0
 cat >"${LOCALPATH}"/flash_u-boot.sh <<EOF
 OUT_DIR="${OUT}"
 wait_sleep=3
-rkbin/tools/rkdeveloptool  db ${OUT_DIR}/u-boot/rk3399_loader_v1.08.106.bin && \
-sleep ${wait_sleep}  && \
-rkbin/tools/rkdeveloptool  wl 0x40 ${OUT_DIR}/u-boot/idbloader.img  && \
-sleep ${wait_sleep}  && \
-rkbin/tools/rkdeveloptool  wl 0x4000 ${OUT_DIR}/u-boot/uboot.img && \
-sleep ${wait_sleep}  && \
-rkbin/tools/rkdeveloptool  wl 0x6000 ${OUT_DIR}/u-boot/trust.img && \
-sleep ${wait_sleep}  && \
-rkbin/tools/rkdeveloptool  wl 0x8000 ${OUT_DIR}/boot.img && \
-sleep ${wait_sleep}  && \
-rkbin/tools/rkdeveloptool  wl 0x40000 ${OUT_DIR}/rootfs/linaro-rootfs.img && \
-sleep ${wait_sleep}  && \
+rkbin/tools/rkdeveloptool  db ${OUT_DIR}/u-boot/rk3399_loader_v1.08.106.bin && 
+sleep wait_sleep  && 
+rkbin/tools/rkdeveloptool  wl 0x40 ${OUT_DIR}/u-boot/idbloader.img  && 
+sleep wait_sleep  && 
+rkbin/tools/rkdeveloptool  wl 0x4000 ${OUT_DIR}/u-boot/uboot.img && 
+sleep wait_sleep  && 
+rkbin/tools/rkdeveloptool  wl 0x6000 ${OUT_DIR}/u-boot/trust.img && 
+sleep wait_sleep  && 
+rkbin/tools/rkdeveloptool  wl 0x8000 ${OUT_DIR}/boot.img && 
+sleep wait_sleep  && 
+rkbin/tools/rkdeveloptool  wl 0x40000 ${OUT_DIR}/rootfs/linaro-rootfs.img && 
+sleep wait_sleep  && 
 rkbin/tools/rkdeveloptool rd
 EOF
