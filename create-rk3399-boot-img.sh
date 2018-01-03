@@ -102,7 +102,6 @@ echo -e "\e[36m We used KERNEL_VERSION => ${KERNEL_VERSION}\e[0m"
 echo -e "\e[36m Generate Boot image : ${BOOT} success! \e[0m"
 
 echo -e "Bring board is msrom mode and flash boot.img"
-
 echo -e "rkbin/tools/rkdeveloptool  db out/u-boot/rk3399_loader_v1.08.106.bin "
 echo -e "rkbin/tools/rkdeveloptool  wl 0x8000 out/boot.img "
 echo -e "rkbin/tools/rkdeveloptool rd "
