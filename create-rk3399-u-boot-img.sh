@@ -6,12 +6,12 @@
 
 U_BOOT_DIR="u-boot-rockchip"
 
-
-
-
 LOCALPATH=$(pwd)
+
 OUT="${LOCALPATH}"/out
+
 TOOLPATH="${LOCALPATH}"/rkbin/tools
+
 BOARD=$1
 
 PATH=$PATH:$TOOLPATH
@@ -41,6 +41,7 @@ echo -e "\e[36m Building U-boot for ${BOARD} board! \e[0m"
 echo -e "\e[36m Using ${UBOOT_DEFCONFIG} \e[0m"
 
 cd ${LOCALPATH}/${U_BOOT_DIR}
+
 make "${UBOOT_DEFCONFIG}" all
 
 ${TOOLPATH}/loaderimage --pack --uboot ./u-boot-dtb.bin uboot.img 0x200000
@@ -77,3 +78,11 @@ $TOOLPATH/trust_merger "${LOCALPATH}"/trust.ini
 cp "${LOCALPATH}"/trust.ini "${OUT}"
 cp uboot.img "${OUT}"/u-boot/
 mv trust.img "${OUT}"/u-boot/
+
+
+echo -e "\e[36m Generate Boot image start\e[0m"
+
+echo -e "Take the board is msrom mode and flash u-boot.img"
+echo -e "rkbin/tools/rkdeveloptool  db out/u-boot/rk3399_loader_v1.08.106.bin "
+echo -e "rkbin/tools/rkdeveloptool  wl 0x4000 ${OUT_DIR}/u-boot/uboot.img "
+echo -e "rkbin/tools/rkdeveloptool rd "
