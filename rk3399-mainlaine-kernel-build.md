@@ -632,6 +632,9 @@ http://rockchip.wikidot.com/linux-user-guide#toc22
 partitions=uuid_disk=${uuid_gpt_disk};r2,start=8MB,size=4MB,uuid=${uuid_gpt_loader2};name=trust,size=4t};name=rootfs,size=-,uuid=B921B045-1    DF0-41C3-AF44-4C6F280D3FAE; oot=echo Scanning ${devtype} ${devnum}:${distro_bootpart}...; fon_dev_for_scripts; done;run scan_dev_for_efi;
 
 # vi ./include/configs/rockchip-common.h
+# ./include/configs/rk3399_common.h:	"partitions=" PARTS_DEFAULT \
+
+
 
 
 # uboot error
