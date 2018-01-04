@@ -613,3 +613,36 @@ ttyO0,115200n8
 
 # 7.3. Passing Kernel Arguments
 - https://www.denx.de/wiki/DULG/LinuxKernelArgs
+
+
+# What is a system image??
+
+
+# build image from rockchip
+http://rockchip.wikidot.com/linux-user-guide#toc22
+
+
+# rockchip gpt partion
+- http://rockchip.wikidot.com/partition
+
+
+!!!! gpt write mmc 0 $partitions
+
+
+partitions=uuid_disk=${uuid_gpt_disk};r2,start=8MB,size=4MB,uuid=${uuid_gpt_loader2};name=trust,size=4t};name=rootfs,size=-,uuid=B921B045-1    DF0-41C3-AF44-4C6F280D3FAE; oot=echo Scanning ${devtype} ${devnum}:${distro_bootpart}...; fon_dev_for_scripts; done;run scan_dev_for_efi;
+
+# vi ./include/configs/rockchip-common.h
+
+
+# uboot error
+Writing GPT: ERROR: ** Can't read from device 0 **
+
+at disk/part_efi.c:363/set_protective_mbr()
+** Can't write to device 0 **
+error!
+
+
+append: earlyprintk otfstype=ext4 init=/sbin/init roreading /rk3399-sapphire-excavator-linux.dtb
+
+
+

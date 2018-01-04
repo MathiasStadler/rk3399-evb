@@ -1,0 +1,32 @@
+
+Unknown command '' - try 'help'
+=> printenv -a
+arch=arm
+baudrate=1500000
+board=evb_rk3399
+board_name=evb_rk3399
+boot_a_script=load ${devtype} ${devnum}:${distro_bootpart} ${scriptaddr} ${prefix}${script}; source ${scriptaddr}
+boot_ebootpart} ${kernel_addr_r} efi/boot/bootaa64.efi; if fdt addr ${efi ${kernel_addr_r} ${fdtcontroladdr};fi
+boot_extlinux=sysbootnux/extlinux.conf
+boot_net_usb_start=usb start
+boot_prefixes=/boot.scr
+boot_targets=mmc0 mmc1 usb0 pxe dhcp 
+bootcmd=run dis} ${boot_script_dhcp}; then source ${scriptaddr}; fi;setenv efi_rch ${bootp_arch};setenv bootp_vci PXEClient:Arch:00011:UNDI:003_addr_r} dtb/${efi_fdtfile};if fdt addr ${fdt_addr_r}; then bootdtcontroladdr};fi;fi;setenv bootp_vci ${efi_old_vci};setenv bootefi_old_vci;
+bootcmd_mmc0=setenv devnum 0; run mmc_boot
+bootcmart; dhcp; if pxe get; then pxe boot; fi
+bootcmd_usb0=setenv de32000000000c0a85
+distro_bootcmd=for target in ${boot_targets}; t/
+ethaddr=7e:1c:d7:01:24:ed
+fdt_addr_r=0x01f00000
+fdtcontrol{devnum}:${distro_bootpart} ${fdt_addr_r} ${prefix}${efi_fdtfileev_for_boot_part; fi
+partitions=uuid_disk=${uuid_gpt_disk};nametart=8MB,size=4MB,uuid=${uuid_gpt_loader2};name=trust,size=4M,uu;name=rootfs,size=-,uuid=B921B045-1DF0-41C3-AF44-4C6F280D3FAE;
+t=echo Scanning ${devtype} ${devnum}:${distro_bootpart}...; for v_for_scripts; done;run scan_dev_for_efi;
+scan_dev_for_boot_parist || setenv devplist 1; for distro_bootpart in ${devplist}; don scan_dev_for_boot; fi; done
+scan_dev_for_efi=setenv efi_fdtfitype} ${devnum}:${distro_bootpart} ${prefix}${efi_fdtfile}; thenotpart} efi/boot/bootaa64.efi; then echo Found EFI removable medAILED: continuing...; fi; setenv efi_fdtfile
+scan_dev_for_extlinux/extlinux.conf; then echo Found ${prefix}extlinux/extlinux.co_for_scripts=for script in ${boot_scripts}; do if test -e ${devt U-Boot script ${prefix}${script}; run boot_a_script; echo SCRIPfdc8c35be78c
+soc=rockchip
+stderr=serial,vidconsole
+stdout=ser devtype usb; run scan_dev_for_boot_part; fi
+vendor=rockchip
+<INTERRUPT>
+=> 
