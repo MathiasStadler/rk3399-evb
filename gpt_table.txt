@@ -1,0 +1,13 @@
+Downloading bootloader succeeded.
+ubuntu@ubuntu-xenial:~$ rkbin/tools/rkdeveloptool pgpt
+**********GPT Info**********
+NO  LBA       Name                
+00  00000040  loader1
+01  00001F80  reserved1
+02  00002000  reserved2
+03  00004000  loader2
+04  00006000  atf
+05  00008000  boot
+06  00040000  rootfs
+ubuntu@ubuntu-xenial:~$ 
+

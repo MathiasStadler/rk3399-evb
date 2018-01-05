@@ -1,0 +1,19 @@
+# from here
+# https://forum.armbian.com/profile/1111-boobypi/?do=content&type=forums_topic_post&change_section=1
+
+setenv ipaddr 192.168.x.x
+setenv serverip 192.168.x.x
+setenv netmask 255.255.255.0
+setenv kernel_addr_r 0x42000000
+setenv fdt_addr_r 0x43000000
+setenv ramdisk_addr_r 0x43300000
+setenv rootfsaddr 0x43300000
+
+setenv tftpLoadUBoot tftpboot 0x42000000 openwrt-sunxi-uImage
+setenv tftpLoadDTB tftpboot 0x43000000 dtb
+setenv tftpLoadROOTFSRAM tftpboot 0x43300000 openwrt-sunxi-root.ext4
+setenv tftpLoadCMD run tftpLoadUBoot tftpLoadDTB tftpLoadROOTFSRAM
+setenv bootargs console=ttyS0,115200 mem=512M earlyprintk root=/dev/ram0 rw ramdisk_size=200000 initrd=0x43300000,100M
+saveenv
+run tftpLoadCMD
+bootm 0x42000000 - 0x43000000 - 0x43300000

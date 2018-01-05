@@ -11,7 +11,7 @@ rkbin/tools/rkdeveloptool  wl 0x40000 rootfs/linaro-rootfs.img
 
 
 
-OUT_DIR="${OUT:-out}"
+OUT_DIR="${OUT:-out_save}"
 let local WAIT_SLEEP=3
 echo "OUT_DIR => ${OUT_DIR}"
 rkbin/tools/rkdeveloptool  db "${OUT_DIR}"/u-boot/rk3399_loader_v1.08.106.bin && \
@@ -27,3 +27,8 @@ sleep $WAIT_SLEEP  && \
 rkbin/tools/rkdeveloptool  wl 0x40000 "${OUT_DIR}"/rootfs/linaro-rootfs.img && \
 sleep $WAIT_SLEEP  && \
 rkbin/tools/rkdeveloptool rd
+
+
+
+
+gpt write mmc 0 $partitions

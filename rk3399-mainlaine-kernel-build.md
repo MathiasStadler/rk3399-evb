@@ -667,17 +667,12 @@ error!
 append: earlyprintk otfstype=ext4 init=/sbin/init roreading /rk3399-sapphire-excavator-linux.dtb
 
 
-# youtubr video
+# youtube video
 - https://www.youtube.com/watch?v=WnlPu6Byg1E
 - see 2:02
 
 #partition
 partitions uuid_disk=${uuid_gpt_disk};nametart=8MB,size=4MB,uuid=${uuid_gpt_loader2};name=trust,size=4M,uu;name=rootfs,size=-,uuid=B921B045-1DF0-41C3-AF44-4C6F280D3FAE;
-
-
-
-
-
 
 
 # uboot setenv partitions
@@ -693,15 +688,15 @@ setenv partitions '"uuid_disk=${uuid_gpt_disk};" \
 
 # setenv multiline vars
 ## [U-Boot] Parsing of multi-line env vars broken
-- https://lists.denx.de/pipermail/u-boot/2014-September/189899.html
+-  https://lists.denx.de/pipermail/u-boot/2014-September/189899.html
  
 
 
 # ERROR 
-=> ## Error: illegal character '='in variable name 
--> Solution : NO used the equals (=) after var name :-)
-good : setenv partitions uidexxxx
-bad : setenv partitions=uidexxx
+- > ## Error: illegal character '='in variable name 
+- > Solution : NO used the equals (=) after var name :-)
+- good : setenv partitions uidexxxx
+- bad : setenv partitions=uidexxx
 
 
 
@@ -711,5 +706,88 @@ error!
 - https://stackoverflow.com/questions/11752705/does-stdstring-contain-null-terminator
 -> Solution : insert \0 in the string  => "blablubb\0"
 
+
+# link from here
+
+http://opensource.rock-chips.com/wiki_Rockusb
+http://rockchip.wikidot.com/boot-sequence
+http://opensource.rock-chips.com/wiki_Boot_option
+http://wiki.t-firefly.com/index.php/Firefly-RK3288/Boot_mode/en
+https://github.com/u-boot/u-boot/blob/master/doc/README.rockchip#L65
+
+
+
+# reboot is msrom mode
+- rk3399 not work
+- rkbin/tools/rkdeveloptool rd 3
+
+
+
+# rkflashtool
+- https://github.com/linux-rockchip/rkflashtool.git
+
+
+ # uboot => bootm
+Wrong Image Format for bootm command
+ERROR: can't get kernel image!
+
+
+# builöd mainline kernel
+- http://linux-sunxi.org/Mainline_Kernel_Howto
+
+
+fatload mmc 0:6 0x8000 Image
+fatload mmc 0:6 0x8000 rk3399-sapphire-excavator.dtb
+bootm 0x8000 - 0x8000
+
+iminfo
+
+
+# https://stackoverflow.com/questions/41230606/cannot-boot-from-fit-image
+
+
+
+
+# u-boot
+- book capital 
+- http://www.informit.com/articles/article.aspx?p=1647051&seqNum=5
+- http://www.informit.com/articles/article.aspx?p=1647051
+
+
+
+
+# u-boot manual complet
+- https://www.denx.de/wiki/view/DULG/UBoot
+
+
+# [U-Boot-Users] Kermit + minicom + u-boot tutorial
+- https://lists.denx.de/pipermail/u-boot/2003-June/001527.html
+
+
+https://tthtlc.wordpress.com/2014/06/10/walkthrough-into-custom-setup-for-device-tree-uboot-and-miscellaneous-for-cubox-i4-pro/
+
+
+
+# 
+Stopping Bash from wrapping lines in picocom with a wide terminal
+- http://lofi.jet-age.co.nz/2011/06/stopping-bash-from-wrapping-lines-in-picocom-with-a-wide-terminal/
+
+
+
+#  
+Stopping Bash from wrapping lines in picocom with a wide terminal
+
+https://unix.stackexchange.com/questions/16578/resizable-serial-console-window
+
+# uboot cfbconsole
+
+
+
+# uboot netconsole
+https://forum.doozan.com/read.php?3,14,14
+
+
+
+# sudo apt-get install dhcpdump 
 
 
