@@ -694,7 +694,7 @@ setenv partitions '"uuid_disk=${uuid_gpt_disk};" \
 # setenv multiline vars
 ## [U-Boot] Parsing of multi-line env vars broken
 - https://lists.denx.de/pipermail/u-boot/2014-September/189899.html
-
+ 
 
 
 # ERROR 
