@@ -30,3 +30,5 @@ stdout=ser devtype usb; run scan_dev_for_boot_part; fi
 vendor=rockchip
 <INTERRUPT>
 => 
+
+

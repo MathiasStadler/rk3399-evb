@@ -113,5 +113,45 @@ GNU ld (Linaro_Binutils-2017.02) 2.27.0.20161019
 
 
 
-
+=> printenv  -a
+arch=arm
+baudrate=1500000
+board=evb_rk3399
+board_name=evb_rk3399
+boot_a_script=load ${devtype} ${devnum}:${distro_bootpart} ${scriptaddr} ${prefix}$
+{script}; source ${scriptaddr}
+boot_eootpart} ${kernel_addr_r} efi/boot/bootaa64.efi; if fdt addr ${f ${kernel_add
+r_r} ${fdtcontroladdr};fi
+boot_extlinux=sysboot ${nux/extlinux.conf
+boot_net_usb_start=usb start
+boot_prefixes=/boot.scr
+boot_targets=mmc0 mmc1 usb0 pxe dhcp 
+bootcmd=run dis ${boot_script_dhcp}; then source ${scriptaddr}; fi;setenv efi_fh ${
+bootp_arch};setenv bootp_vci PXEClient:Arch:00011:UNDI:00300_addr_r} dtb/${efi_fdtf
+ile};if fdt addr ${fdt_addr_r}; then bootdtcontroladdr};fi;fi;setenv bootp_vci ${ef
+i_old_vci};setenv bootfi_old_vci;
+bootcmd_mmc0=setenv devnum 0; run mmc_boot
+bootcmdrt; dhcp; if pxe get; then pxe boot; fi
+bootcmd_usb0=setenv dev2000000000c0a85
+distro_bootcmd=for target in ${boot_targets}; d
+ethaddr=7e:1c:d7:01:24:ed
+fdt_addr_r=0x01f00000
+fdtcontroladdevnum}:${distro_bootpart} ${fdt_addr_r} ${prefix}${efi_fdtfile}_dev_fo
+r_boot_part; fi
+partitions=uuid_disk=${uuid_gpt_disk};naart=8MB,size=4MB,uuid=${uuid_gpt_loader2};n
+ame=trust,size=4M,uui};name=rootfs,size=-,uuid=B921B045-1DF0-41C3-AF44-4C6F280D3FAE
+=echo Scanning ${devtype} ${devnum}:${distro_bootpart}...; for p_for_scripts; done;
+run scan_dev_for_efi;
+scan_dev_for_boot_partst || setenv devplist 1; for distro_bootpart in ${devplist}; 
+do run scan_dev_for_boot; fi; done
+scan_dev_for_efi=setenv efi_fdtype} ${devnum}:${distro_bootpart} ${prefix}${efi_fdt
+file}; then otpart} efi/boot/bootaa64.efi; then echo Found EFI removable medAILED: 
+continuing...; fi; setenv efi_fdtfile
+scan_dev_for_extlilinux/extlinux.conf; then echo Found ${prefix}extlinux/extlinux.e
+v_for_scripts=for script in ${boot_scripts}; do if test -e ${dend U-Boot script ${p
+refix}${script}; run boot_a_script; echo SCRdc8c35be78c
+soc=rockchip
+stderr=serial,vidconsole
+stdout=seriv devtype usb; run scan_dev_for_boot_part; fi
+vendor=rockchip
 

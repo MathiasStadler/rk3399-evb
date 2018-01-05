@@ -71,9 +71,13 @@ make "${UBOOT_DEFCONFIG}" all
 
 #TODO Which mkimage version support rk3399
 #TODOD select the current git
+
 "${MKIMAGE}" -n rk3399 -T rksd -d "${LOCALPATH}"/rkbin/rk33/rk3399_ddr_800MHz_v1.08.bin idbloader.img
+
 cat "${LOCALPATH}"/rkbin/rk33/rk3399_miniloader_v1.06.bin >>idbloader.img
+
 cp idbloader.img "${OUT}"/u-boot/
+
 cp "${LOCALPATH}"/rkbin/rk33/rk3399_loader_v1.08.106.bin "${OUT}"/u-boot/
 
 cat >"${LOCALPATH}"/trust.ini <<EOF

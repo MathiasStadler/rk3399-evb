@@ -626,16 +626,36 @@ http://rockchip.wikidot.com/linux-user-guide#toc22
 - http://rockchip.wikidot.com/partition
 
 
-!!!! gpt write mmc 0 $partitions
+# write defult $partiton to emmc
+- The value of $partition is define in the file uboot/include/configs/rockchip-common.h
 
+uboot:> gpt write mmc 0 $partitions
+
+
+# ERRROR
+=> gpt write mmc 0 $partitions
+Writing GPT: ERROR: ** Can't read from device 0 **
+at disk/part_efi.c:363/set_protective_mbr()
+** Can't write to device 0 **
+error!
+-> Solution 
+1. set the board in the msrom mode 
+2.  set the board in flash mode
+- ```rkbin/tools/rkdeveloptool  db "${OUT_DIR}"/u-boot/rk3399_loader_v1.08.106.bin```
+3. reboot device via rkdeveloptool
+```rkbin/tools/rkdeveloptool rd```
+
+
+
+
+# xilinx ubbot command
+- good overview
+- http://www.wiki.xilinx.com/U-boot
 
 partitions=uuid_disk=${uuid_gpt_disk};r2,start=8MB,size=4MB,uuid=${uuid_gpt_loader2};name=trust,size=4t};name=rootfs,size=-,uuid=B921B045-1    DF0-41C3-AF44-4C6F280D3FAE; oot=echo Scanning ${devtype} ${devnum}:${distro_bootpart}...; fon_dev_for_scripts; done;run scan_dev_for_efi;
 
 # vi ./include/configs/rockchip-common.h
 # ./include/configs/rk3399_common.h:	"partitions=" PARTS_DEFAULT \
-
-
-
 
 # uboot error
 Writing GPT: ERROR: ** Can't read from device 0 **
@@ -644,8 +664,52 @@ at disk/part_efi.c:363/set_protective_mbr()
 ** Can't write to device 0 **
 error!
 
-
 append: earlyprintk otfstype=ext4 init=/sbin/init roreading /rk3399-sapphire-excavator-linux.dtb
+
+
+# youtubr video
+- https://www.youtube.com/watch?v=WnlPu6Byg1E
+- see 2:02
+
+#partition
+partitions uuid_disk=${uuid_gpt_disk};nametart=8MB,size=4MB,uuid=${uuid_gpt_loader2};name=trust,size=4M,uu;name=rootfs,size=-,uuid=B921B045-1DF0-41C3-AF44-4C6F280D3FAE;
+
+
+
+
+
+
+
+# uboot setenv partitions
+setenv partitions uuid_disk=${uuid_gpt_disk};nametart=8MB,size=4MB,uuid=${uuid_gpt_loader2};name=trust,size=4M,uu;name=rootfs,size=-,uuid=B921B045-1DF0-41C3-AF44-4C6F280D3FAE;
+
+setenv partitions '"uuid_disk=${uuid_gpt_disk};" \
+"name=loader1,start=32K,size=4000K,uuid=${uuid_gpt_loader1};" \
+"name=loader2,start=8MB,size=4MB,uuid=${uuid_gpt_loader2};" \
+"name=trust,size=4M,uuid=${uuid_gpt_atf};" \
+"name=boot,size=112M,bootable,uuid=${uuid_gpt_boot};" \
+"name=rootfs,size=-,uuid="B921B045-1DF0-41C3-AF44-4C6F280D3FAE;\0"'
+
+
+# setenv multiline vars
+## [U-Boot] Parsing of multi-line env vars broken
+- https://lists.denx.de/pipermail/u-boot/2014-September/189899.html
+
+
+
+# ERROR 
+=> ## Error: illegal character '='in variable name 
+-> Solution : NO used the equals (=) after var name :-)
+good : setenv partitions uidexxxx
+bad : setenv partitions=uidexxx
+
+
+
+# ERROR
+=> Writing GPT: Error: is the partitions string NULL-terminated?
+error!
+- https://stackoverflow.com/questions/11752705/does-stdstring-contain-null-terminator
+-> Solution : insert \0 in the string  => "blablubb\0"
 
 
 
