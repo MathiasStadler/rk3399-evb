@@ -788,6 +788,100 @@ https://forum.doozan.com/read.php?3,14,14
 
 
 
-# sudo apt-get install dhcpdump 
+# dhcpdump on bash console
+- sudo apt-get install dhcpdump 
+- > dhcpdump -i <interface>
 
 
+# uboot set ip
+- from here https://www.denx.de/wiki/DULG/LinuxBootArgs
+setenv ipaddr 192.168.178.210
+setenv gatewayip 192.168.178.1
+setenv serverip 192.168.178.32
+setenv netmask 255.255.255.0
+setenv hostname rk3399-evb  
+setenv ethaddr 7e:1c:d7:01:24:ed
+saveenv
+
+printenv ipaddr
+printenv gatewayip
+printenv serverip
+printenv netmask
+printenv hostname 
+printenv ethaddr
+
+
+
+# ERROR => ARP Retry count exceeded; starting again
+- from here
+- > https://community.nxp.com/thread/331776
+=> mii info
+PHY 0x00: OUI = 0x0732, Model = 0x11, Rev = 0x05, 100baseT, FDX
+PHY 0x01: OUI = 0x0732, Model = 0x11, Rev = 0x05, 100baseT, FDX
+
+=> mii dump 0 0
+0.     (1140)                 -- PHY control register --
+  (8000:0000) 0.15    =     0    reset
+  (4000:0000) 0.14    =     0    loopback
+  (2040:0040) 0. 6,13 =   b10    speed selection = enable
+  (0800:0000) 0.11    =     0    power-down
+  (0400:000rt A/N
+  (0100:0100) 0. 8    =     1    duplex = full
+  (0080:=     0    (reserved)
+
+
+=> mii dump 0 1
+1.     (796d)                 -- PHY status register --
+  (8000:0000) 1.15    =     0    100BASE-T4 able
+  (4000:4000) 1.14    =     1    100BASE-X  full duplex able
+  (2000:2000) 1.13    =1000) 1.12    =     1    10 Mbps    full duplex able
+  (0800:08    =     0    100BASE-T2 full duplex able
+  (0200:0000) 1. 9    1    extended status
+  (0080:0000) 1. 7    =     0    (reserv:0020) 1. 5    =     1    A/N complete
+  (0010:0000) 1. 4    = 0004:0004) 1. 2    =     1    link status
+  (0002:0000) 1. 1   apabilities
+
+- > Solution : open
+
+
+# setting the mac address in uboot
+- from here
+- https://community.nxp.com/thread/377420
+The U-boot also says for environment variable of the first/only ethernet:
+
+ethaddr: Ethernet MAC address for first/only ethernet interface (= eth0 in Linux).
+
+    This variable can be set only once (usually during manufacturing of the board). U-Boot refuses to delete or overwrite this variable once it has been set.
+
+eth1addr: Ethernet MAC address for second ethernet interface (= eth1 in Linux).
+
+
+
+# 5.10. U-Boot Environment Variables
+- from here
+- https://www.denx.de/wiki/DULG/UBootEnvVariables
+
+
+
+# picocom capture / log file
+- from here
+- https://github.com/npat-efault/picocom/issues/24
+--logfile <filename> without additional --log <mode> should behave similar to e.g. minicom:
+About the mode:
+- see too : picocom --help 
+
+    
+# setenv disable_giga 
+- from here
+- https://www.theobroma-systems.com/application/files/9115/0946/4061/rk3399-q7-design-notes-v1.0.pdf
+
+
+# How Capturing arp and ping traffic
+- from here
+- http://homepage.smc.edu/morgan_david/cs70/assignments/lab-arpandping.htm
+
+- > sudo /usr/sbin/tcpdump -nnti eth0 arp or icmp and host 207.151.69.250 -w mycapturefile
+- > sudo /usr/sbin/tcpdump -nnti eno1 arp or icmp
+
+# tftp install server
+- https://wiki.ubuntuusers.de/advanced_TFTP/
