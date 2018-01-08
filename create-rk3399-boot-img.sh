@@ -40,10 +40,17 @@ finish() {
 }
 trap finish ERR
 
+
+# script path
+# from here
+# https://stackoverflow.com/questions/4774054/reliable-way-for-a-bash-script-to-get-the-full-path-to-itself
+SCRIPT_PATH="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+
 #load board configs
 #TODO OLD source "${LOCALPATH}"/build/board_configs.sh "${BOARD}"
 
-source ./board_configs.sh "${BOARD}"
+source ${SCRIPT_PATH}/board_configs.sh "${BOARD}"
 
 # house keeping
 [ ! -d ${OUT} ] && mkdir ${OUT}
