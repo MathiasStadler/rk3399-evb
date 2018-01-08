@@ -50,7 +50,7 @@ source "${LOCALPATH}"/build/board_configs.sh "${BOARD}"
 cd ${KERNEL_DIR}
 
 #clean
-make mrproper
+#TODO make flagable make mrproper
 
 #TODO old git checkout tags/v4.10.17
 git checkout tags/${KERNEL_TAG}
