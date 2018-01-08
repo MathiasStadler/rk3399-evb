@@ -3,7 +3,7 @@
 LOCALPATH=$(pwd)
 
 echo $(pwd) >/tmp/target_path
-sudo -i
+# sudo -i
 cd $(cat /tmp/target_path)
 export MAKEFLAGS="-j 8"
 export PATH="/opt/gcc-linaro-6.3.1-2017.02-x86_64_aarch64-linux-gnu/bin/:$PATH"
