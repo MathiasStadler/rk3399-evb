@@ -96,8 +96,8 @@ if [ "${KERNEL_DEBUG}" == "y" ]; then
     echo "CONFIG_DEBUG_LL=y" >>"${PATH_TO_ARM_DEFCONFIG}"/"${DEFCONFIG}-debug"
     echo "CONFIG_EARLY_PRINTK=y" >>"${PATH_TO_ARM_DEFCONFIG}"/"${DEFCONFIG}-debug"
 
-    cat ${PATH_TO_ARM_DEFCONFIG}/${DEFCONFIG} |grep CONFIG_DEBUG_LL=y
-    cat ${PATH_TO_ARM_DEFCONFIG}/${DEFCONFIG} |grep CONFIG_EARLY_PRINTK=y
+    cat "${PATH_TO_ARM_DEFCONFIG}"/"${DEFCONFIG}-debug" |grep CONFIG_DEBUG_LL=y
+    cat "${PATH_TO_ARM_DEFCONFIG}"/"${DEFCONFIG}-debug" |grep CONFIG_EARLY_PRINTK=y
     
     # set defconfig_debug as current defconfig
     defconfig=${PATH_TO_ARM_DEFCONFIG}/${DEFCONFIG}-debug
