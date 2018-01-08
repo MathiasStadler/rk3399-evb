@@ -29,7 +29,7 @@ EXTLINUXPATH=${LOCALPATH}/build/extlinux
 
 
 
-PATH_TO_ARM_DEFCONFIG="./arch/arm64/configs/defconfig"
+PATH_TO_ARM_DEFCONFIG="./arch/arm64/configs"
 
 # help function
 version_gt() { test "$(echo "$@" | tr " " "\n" | sort -V | head -n 1)" != "$1"; }
