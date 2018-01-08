@@ -31,14 +31,36 @@ EXTLINUXPATH=${LOCALPATH}/build/extlinux
 
 PATH_TO_ARM_DEFCONFIG="./arch/arm64/configs"
 
-# help function
-version_gt() { test "$(echo "$@" | tr " " "\n" | sort -V | head -n 1)" != "$1"; }
+
+# from here
+# https://stackoverflow.com/questions/8455991/elegant-way-for-verbose-mode-in-scripts
+# set verbose level to info
+
+__VERBOSE=6
+
+declare -A LOG_LEVELS
+# https://en.wikipedia.org/wiki/Syslog#Severity_level
+LOG_LEVELS=([0]="emerg" [1]="alert" [2]="crit" [3]="err" [4]="warning" [5]="notice" [6]="info" [7]="debug")
+function .log () {
+  local LEVEL=${1}
+  shift
+  if [ ${__VERBOSE} -ge ${LEVEL} ]; then
+    echo "[${LOG_LEVELS[$LEVEL]}]" "$@"
+  fi
+}
+
+.log 6 "Start logging"
+
 
 finish() {
     echo -e "\e[31m CREATE BOOT.IMG FAILED.\e[0m"
     exit -1
 }
 trap finish ERR
+
+
+# help function
+version_gt() { test "$(echo "$@" | tr " " "\n" | sort -V | head -n 1)" != "$1"; }
 
 
 # script path
@@ -107,9 +129,8 @@ fi
 echo -e "\e[36m We used KERNEL_VERSION => ${KERNEL_VERSION}\e[0m"
 echo -e "\e[36m We used DTB => ${DTB}\e[0m"
 echo -e "\e[36m We used DEFCONFIG => ${DEFCONFIG}\e[0m"
-#cat ${PATH_TO_ARM_DEFCONFIG}/${DEFCONFIG}
 
-exit 1
+#cat ${PATH_TO_ARM_DEFCONFIG}/${DEFCONFIG}
 
 make ${DEFCONFIG}
 
