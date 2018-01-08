@@ -83,7 +83,7 @@ dir="${OUT}"
 if [ -d "${dir}" -a ! -h "${dir}" ]
 then
    echo "${dir} found "
-   mv -a "${dir}" "${dir}_$(date +"%Y_%m_%d_%I_%M_%S")"
+   mv "${dir}" "${dir}_$(date +"%Y_%m_%d_%I_%M_%S")"
    
 else
    echo "$dir not availble Nothing to save"
