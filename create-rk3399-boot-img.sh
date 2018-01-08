@@ -1,5 +1,10 @@
 #!/bin/bash -e
 
+
+# settings
+KERNEL_DIR="linux-stable"
+KERNEL_TAG="v4.14.12"
+
 # flags
 
 MAINLINE=y
@@ -22,8 +27,7 @@ EXTLINUXPATH=${LOCALPATH}/build/extlinux
 #TDOD old ROOTFS_PATH=""
 #KERNEL_DIR="linux-stable"
 
-KERNEL_DIR="linux-stable"
-KERNEL_TAG="v4.14.12"
+
 
 PATH_TO_ARM_DEFCONFIG="./arch/arm64/configs/defconfig"
 
