@@ -2,6 +2,13 @@
 #we will have a new envoriment :-)
 LOCALPATH=$(pwd)
 
+# clean
+cd kerneel
+
+#TODO cmd switch
+make mrproper
+
+
 echo $(pwd) >/tmp/target_path
 # sudo -i
 cd $(cat /tmp/target_path)

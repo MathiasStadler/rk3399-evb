@@ -1,30 +1,31 @@
-#!/bin/bash
-## build  kernel
-## START ##
+#!/bin/bash -e
 
-export ARCH=arm64
-export CROSS_COMPILE=aarch64-linux-gnu-
+# flags
 
 MAINLINE=y
+KERNEL_DEBUG=y
 
-DEFCONFIG=rockchip_linux_defconfig
-DEFCONFIG_MAINLINE=defconfig
+# vars
 
-UBOOT_DEFCONFIG=evb-rk3399_defconfig
-DTB_MAINLINE=rk3399-sapphire-excavator.dtb
-DTB=rk3399-sapphire-excavator-linux.dtb
+#TODO old DEFCONFIG=rockchip_linux_defconfig
+#TODO old DEFCONFIG_MAINLINE=defconfig
+#TODO old UBOOT_DEFCONFIG=evb-rk3399_defconfig
+#TODO old DTB_MAINLINE=rk3399-sapphire-excavator.dtb
+#TODO odl DTB=rk3399-sapphire-excavator-linux.dtb
 
-CHIP="rk3399"
 LOCALPATH=$(pwd)
 OUT=${LOCALPATH}/out
 TOOLPATH=${LOCALPATH}/rkbin/tools
 EXTLINUXPATH=${LOCALPATH}/build/extlinux
-CHIP="rk3399"
-TARGET=""
-ROOTFS_PATH=""
+#TODO old CHIP="rk3399"
+#TODO old TARGET=""
+#TDOD old ROOTFS_PATH=""
 #KERNEL_DIR="linux-stable"
-KERNEL_DIR="linux-rockchip"
-KERNEL_TAG="v4.15-rc2"
+
+KERNEL_DIR="linux-stable"
+KERNEL_TAG="v4.14.12"
+
+PATH_TO_ARM_DEFCONFIG="./arch/arm64/configs/defconfig"
 
 # help function
 version_gt() { test "$(echo "$@" | tr " " "\n" | sort -V | head -n 1)" != "$1"; }
@@ -40,6 +41,10 @@ trap finish ERR
 [ ! -d ${OUT}/kernel ] && mkdir ${OUT}/kernel
 
 cd ${KERNEL_DIR}
+
+#clean
+make mrproper
+
 #TODO old git checkout tags/v4.10.17
 git checkout tags/${KERNEL_TAG}
 
@@ -61,13 +66,37 @@ else
 
 fi
 
+if [ "${KERNEL_DEBUG}" == "y" ]; then
+
+    # delete old if exists
+    [ -e ${PATH_TO_ARM_DEFCONFIG}/${DEFCONFIG}-debug ] && rm -rf ${PATH_TO_ARM_DEFCONFIG}/${DEFCONFIG}-debug
+
+    # copy defconfig to defconfig-debug
+    cp ${PATH_TO_ARM_DEFCONFIG}/${DEFCONFIG} ${PATH_TO_ARM_DEFCONFIG}/${DEFCONFIG}-debug
+
+    # add to defconfig
+    # CONFIG_DEBUG_LL=y
+    # CONFIG_EARLY_PRINTK=y
+    echo "CONFIG_DEBUG_LL=y" >>${PATH_TO_ARM_DEFCONFIG}/${DEFCONFIG}-debug
+    echo "CONFIG_EARLY_PRINTK=y" >>${PATH_TO_ARM_DEFCONFIG}/${DEFCONFIG}-debug
+
+
+    
+    # set defconfig_debug as current defconfig
+    defconfig=${PATH_TO_ARM_DEFCONFIG}/${DEFCONFIG}-debug
+
+fi
+
+echo -e "\e[36m We used KERNEL_VERSION => ${KERNEL_VERSION}\e[0m"
 echo -e "\e[36m We used DTB => ${DTB}\e[0m"
 echo -e "\e[36m We used DEFCONFIG => ${DEFCONFIG}\e[0m"
-echo -e "\e[36m We used KERNEL_VERSION => ${KERNEL_VERSION}\e[0m"
+cat ${PATH_TO_ARM_DEFCONFIG}/${DEFCONFIG}
+
+exit 1
 
 make ${DEFCONFIG}
 
-make -j6
+make -j$(nproc) 2>1 | tee /tmp/kernel_build.log
 
 #TDOD old KERNEL_VERSION=$(cat ${LOCALPATH}/${KERNEL_DIR}/include/config/kernel.release)
 

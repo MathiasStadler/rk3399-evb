@@ -885,3 +885,6 @@ About the mode:
 
 # tftp install server
 - https://wiki.ubuntuusers.de/advanced_TFTP/
+
+
+# defconfig show all devconfig
