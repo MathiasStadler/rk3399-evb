@@ -74,6 +74,23 @@ SCRIPT_PATH="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 source ${SCRIPT_PATH}/board_configs.sh "${BOARD}"
 
+
+#check out advailble 
+# save out
+# FROM HERE
+# https://www.cyberciti.biz/faq/howto-check-if-a-directory-exists-in-a-bash-shellscript/
+dir="${OUT}"
+if [ -d "${dir}" -a ! -h "${dir}" ]
+then
+   echo "${dir} found "
+   mv -a "${dir}" "${dir}_$(date +"%Y_%m_%d_%I_%M_%S")"
+   
+else
+   echo "$dir not availble Nothing to save"
+fi
+
+
+
 # house keeping
 [ ! -d ${OUT} ] && mkdir ${OUT}
 [ ! -d ${OUT}/kernel ] && mkdir ${OUT}/kernel
@@ -81,7 +98,8 @@ source ${SCRIPT_PATH}/board_configs.sh "${BOARD}"
 cd ${KERNEL_DIR}
 
 #clean
-#TODO make flagable make mrproper
+#TODO make flagable 
+make mrproper
 
 #TODO old git checkout tags/v4.10.17
 git checkout tags/${KERNEL_TAG}

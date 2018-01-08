@@ -24,15 +24,16 @@ finish_error() {
 }
 trap finish_error ERR
 
-dir="${OUT}"
+
 
 # save out
 # FROM HERE
 # https://www.cyberciti.biz/faq/howto-check-if-a-directory-exists-in-a-bash-shellscript/
+dir="${OUT}"
 if [ -d "${dir}" -a ! -h "${dir}" ]
 then
    echo "${dir} found "
-   cp -a "${dir}" "${dir}_$(date +"%Y_%m_%d_%I_%M_%S")"
+   mv -a "${dir}" "${dir}_$(date +"%Y_%m_%d_%I_%M_%S")"
    
 else
    echo "$dir not availble Nothing to save"
