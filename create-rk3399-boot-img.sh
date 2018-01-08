@@ -96,7 +96,8 @@ if [ "${KERNEL_DEBUG}" == "y" ]; then
     echo "CONFIG_DEBUG_LL=y" >>"${PATH_TO_ARM_DEFCONFIG}"/"${DEFCONFIG}-debug"
     echo "CONFIG_EARLY_PRINTK=y" >>"${PATH_TO_ARM_DEFCONFIG}"/"${DEFCONFIG}-debug"
 
-
+    cat ${PATH_TO_ARM_DEFCONFIG}/${DEFCONFIG} |grep CONFIG_DEBUG_LL=y
+    cat ${PATH_TO_ARM_DEFCONFIG}/${DEFCONFIG} |grep CONFIG_EARLY_PRINTK=y
     
     # set defconfig_debug as current defconfig
     defconfig=${PATH_TO_ARM_DEFCONFIG}/${DEFCONFIG}-debug
@@ -106,7 +107,7 @@ fi
 echo -e "\e[36m We used KERNEL_VERSION => ${KERNEL_VERSION}\e[0m"
 echo -e "\e[36m We used DTB => ${DTB}\e[0m"
 echo -e "\e[36m We used DEFCONFIG => ${DEFCONFIG}\e[0m"
-cat ${PATH_TO_ARM_DEFCONFIG}/${DEFCONFIG}
+#cat ${PATH_TO_ARM_DEFCONFIG}/${DEFCONFIG}
 
 exit 1
 
