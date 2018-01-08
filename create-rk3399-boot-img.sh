@@ -41,7 +41,9 @@ finish() {
 trap finish ERR
 
 #load board configs
-source "${LOCALPATH}"/build/board_configs.sh "${BOARD}"
+#TODO OLD source "${LOCALPATH}"/build/board_configs.sh "${BOARD}"
+
+source ./board_configs.sh "${BOARD}"
 
 # house keeping
 [ ! -d ${OUT} ] && mkdir ${OUT}
