@@ -1,5 +1,7 @@
 #!/bin/bash
 #we will have a new envoriment :-)
+LOCALPATH=$(pwd)
+
 echo $(pwd) >/tmp/target_path
 sudo -i
 cd $(cat /tmp/target_path)
