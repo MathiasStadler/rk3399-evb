@@ -7,7 +7,7 @@
 export ARCH=arm
 export CROSS_COMPILE=arm-linux-gnueabihf-
 
-BOARD=$1
+BOARD="$1"
 
 DEFCONFIG=""
 DEFCONFIG_MAINLINE=""
@@ -16,14 +16,6 @@ DTB_MAINLINE=""
 DTB=""
 CHIP=""
 
-#TODO old remove
-#DEFCONFIG=""
-#DEFCONFIG_MAINLINE=""
-#UBOOT_DEFCONFIG=""
-#DTB=""
-#KERNELIMAGE=""
-#CHIP=""
-#UBOOT_DEFCONFIG=""
 
 case ${BOARD} in
 "rk3399-excavator")
@@ -66,3 +58,12 @@ case ${BOARD} in
     exit -1
     ;;
 esac
+
+
+echo "export vars"
+echo "${DEFCONFIG}"
+echo "${DEFCONFIG_MAINLINE}"
+echo "${UBOOT_DEFCONFIG}"
+echo "${DTB_MAINLINE}"
+echo "${DTB}"
+echo "${CHIP}"

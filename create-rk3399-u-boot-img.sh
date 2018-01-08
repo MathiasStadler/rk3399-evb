@@ -113,7 +113,7 @@ echo -e "\e[36m Generated u-boot image \e[0m"
 cat >"${LOCALPATH}"/flash_u-boot.sh <<EOF
 OUT_DIR="${OUT:-out}"
 wait_sleep=3
-rkbin/tools/rkdeveloptool  db ${OUT_DIR}/u-boot/rk3399_loader_v1.08.106.bin && 
+rkbin/tools/rkdeveloptool  db ${OUT_DIR}/rkbin/rk33/rk3399_loader_v1.08.106.bin && 
 sleep $wait_sleep  &&
 rkbin/tools/rkdeveloptool  wl 0x40 ${OUT_DIR}/u-boot/idbloader.img  && 
 sleep $wait_sleep  &&
@@ -129,7 +129,7 @@ exit 0
 cat >"${LOCALPATH}"/flash_u-boot.sh <<EOF
 OUT_DIR="${OUT}"
 wait_sleep=3
-rkbin/tools/rkdeveloptool  db ${OUT_DIR}/u-boot/rk3399_loader_v1.08.106.bin && 
+rkbin/tools/rkdeveloptool  db ${OUT_DIR}/rkbin/rk33/rk3399_loader_v1.08.106.bin &&  
 sleep wait_sleep  && 
 rkbin/tools/rkdeveloptool  wl 0x40 ${OUT_DIR}/u-boot/idbloader.img  && 
 sleep wait_sleep  && 

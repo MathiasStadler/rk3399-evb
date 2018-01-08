@@ -795,12 +795,13 @@ https://forum.doozan.com/read.php?3,14,14
 
 # uboot set ip
 - from here https://www.denx.de/wiki/DULG/LinuxBootArgs
-setenv ipaddr 192.168.178.210
-setenv gatewayip 192.168.178.1
-setenv serverip 192.168.178.32
-setenv netmask 255.255.255.0
-setenv hostname rk3399-evb  
-setenv ethaddr 7e:1c:d7:01:24:ed
+setenv ipaddr '192.168.178.210'
+setenv gatewayip '192.168.178.1'
+setenv serverip '192.168.178.32'
+setenv netmask '255.255.255.0'
+setenv hostname 'rk3399-evb'  
+setenv ethaddr '7e:1c:d7:01:24:ed'
+setenv ethaddr 'ba:d0:4a:9c:4e:ce'
 saveenv
 
 printenv ipaddr
@@ -809,6 +810,25 @@ printenv serverip
 printenv netmask
 printenv hostname 
 printenv ethaddr
+
+# ???
+mdio list
+
+- http://www.denx.de/wiki/DULG/EthernetDoesNotWorkInLinux
+
+
+----------------
+# CONFIG_FIT_VERBOSE is not set
+CONFIG_BOOTDELAY=2
+CONFIG_LOGLEVEL=4
+CONFIG_SPL_LOGLEVEL=4
+
+#NET
+# CONFIG_CMD_RARP is not set
+
+
+------------
+
 
 
 
@@ -888,3 +908,8 @@ About the mode:
 
 
 # defconfig show all devconfig
+
+
+
+# UART type Synopsis DesignWare 8250 types
+Uarts on all recent Rockchip SoCs are Synopsis DesignWare 8250 types. Only their addresses vary very much. This patch adds the necessary definitions to use any of the uart ports for early debug purposes.
