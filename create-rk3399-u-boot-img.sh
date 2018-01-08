@@ -12,7 +12,7 @@ OUT="${LOCALPATH}"/out
 
 TOOLPATH="${LOCALPATH}"/rkbin/tools
 
-BOARD=$1
+BOARD="rk3399-excavator"
 
 PATH=$PATH:$TOOLPATH
 

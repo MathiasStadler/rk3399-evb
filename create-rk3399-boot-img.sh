@@ -4,7 +4,7 @@
 # settings
 KERNEL_DIR="linux-stable"
 KERNEL_TAG="v4.14.12"
-
+BOARD="rk3399-excavator"
 # flags
 
 MAINLINE=y
@@ -39,6 +39,9 @@ finish() {
     exit -1
 }
 trap finish ERR
+
+#load board configs
+source "${LOCALPATH}"/build/board_configs.sh "${BOARD}"
 
 # house keeping
 [ ! -d ${OUT} ] && mkdir ${OUT}
