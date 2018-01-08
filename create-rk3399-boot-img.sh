@@ -73,16 +73,16 @@ fi
 if [ "${KERNEL_DEBUG}" == "y" ]; then
 
     # delete old if exists
-    [ -e ${PATH_TO_ARM_DEFCONFIG}/${DEFCONFIG}-debug ] && rm -rf ${PATH_TO_ARM_DEFCONFIG}/${DEFCONFIG}-debug
+    [ -e ${PATH_TO_ARM_DEFCONFIG}/${DEFCONFIG}-debug ] && rm -rf "${PATH_TO_ARM_DEFCONFIG}"/"${DEFCONFIG}-debug"
 
     # copy defconfig to defconfig-debug
-    cp ${PATH_TO_ARM_DEFCONFIG}/${DEFCONFIG} ${PATH_TO_ARM_DEFCONFIG}/${DEFCONFIG}-debug
+    cp "${PATH_TO_ARM_DEFCONFIG}"/"${DEFCONFIG}" "${PATH_TO_ARM_DEFCONFIG}"/"${DEFCONFIG}-debug"
 
     # add to defconfig
     # CONFIG_DEBUG_LL=y
     # CONFIG_EARLY_PRINTK=y
-    echo "CONFIG_DEBUG_LL=y" >>${PATH_TO_ARM_DEFCONFIG}/${DEFCONFIG}-debug
-    echo "CONFIG_EARLY_PRINTK=y" >>${PATH_TO_ARM_DEFCONFIG}/${DEFCONFIG}-debug
+    echo "CONFIG_DEBUG_LL=y" >>"${PATH_TO_ARM_DEFCONFIG}"/"${DEFCONFIG}-debug"
+    echo "CONFIG_EARLY_PRINTK=y" >>"${PATH_TO_ARM_DEFCONFIG}"/"${DEFCONFIG}-debug"
 
 
     
