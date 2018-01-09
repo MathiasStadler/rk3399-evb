@@ -913,3 +913,37 @@ About the mode:
 
 # UART type Synopsis DesignWare 8250 types
 Uarts on all recent Rockchip SoCs are Synopsis DesignWare 8250 types. Only their addresses vary very much. This patch adds the necessary definitions to use any of the uart ports for early debug purposes.
+
+
+
+
+# ubuntu xenia gcc 5.0 0 => 6.00
+- from here
+- https://askubuntu.com/questions/781972/how-can-i-update-gcc-5-3-to-6-1?noredirect=1&lq=1
+sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-6 60 --slave /usr/bin/g++ g++ /usr/bin/g++-6    
+
+
+# ubuntu xenial arch64 gcc 5 => 6
+- from here
+- https://stackoverflow.com/questions/28565640/build-kernel-with-aarch64-linux-gnu-gcc
+
+
+
+
+# ubuntu gcc-arm-none-eabi 	7-2017q4-1~zesty2 (Newer version available) 
+- https://launchpad.net/~team-gcc-arm-embedded/+archive/ubuntu/ppa
+
+
+# inside ubuntu
+ls -lh /usr/bin/cc
+/usr/bin/cc -> /etc/alternatives/cc -> /usr/bin/gcc -> /etc/alternatives/gcc  -> /usr/bin/gcc-6
+
+
+# shell command shel
+- alias shell="bash"
+
+
+hier geht es weitzer
+http://wiki.friendlyarm.com/wiki/index.php/Mainline_U-boot_and_Linux#Install_Cross_Compiler
+
+ 
